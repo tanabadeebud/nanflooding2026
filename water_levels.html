@@ -34,8 +34,8 @@
             <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-4">
                 <img src="data/Radar4flood_Icon_PNG.png" alt="Radar4Flood Logo" class="w-10 h-10 object-contain shrink-0" onerror="this.src='Radar4flood_Icon_PNG.png'">
                 <div>
-                    <h1 class="text-lg font-bold tracking-tight text-slate-900">น้ำท่วม น่าน 2026</h1>
-                    <p class="text-xs text-slate-500 font-medium">เหตุการณ์ 18 ส.ค. - ปัจจุบัน</p>
+                    <h1 class="text-base font-bold tracking-tight text-slate-900 data-lang" data-en="Nan Flood Situation 2026" data-th="สถานการณ์น้ำท่วม จ.น่าน พ.ศ. 2569">สถานการณ์น้ำท่วม จ.น่าน พ.ศ. 2569</h1>
+                    <p class="text-xs text-slate-500 font-medium data-lang" data-en="18 Aug 2026 - Present" data-th="18 ส.ค. 2569 - ปัจจุบัน">18 ส.ค. 2569 - ปัจจุบัน</p>
                 </div>
             </div>
 
@@ -46,27 +46,48 @@
                 </button>
             </div>
 
-            <nav class="space-y-1">
-                <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
-                    <i data-lucide="file-text" class="w-5 h-5"></i>
-                    <span class="text-xs font-semibold data-lang" data-en="1. Homepage (Pending)" data-th="1. สรุปภาพรวม (รอดำเนินการ)">1. สรุปภาพรวม (รอดำเนินการ)</span>
+            <nav class="space-y-1 text-xs">
+                <!-- 1. สรุปภาพรวม (กำลังปรับปรุง) -->
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
+                    <i data-lucide="file-text" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-semibold data-lang" data-en="1. Overview (Under Maintenance)" data-th="1. สรุปภาพรวม (กำลังปรับปรุง)">1. สรุปภาพรวม (กำลังปรับปรุง)</span>
                 </div>
-                <a href="gauge_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 transition-all">
-                    <i data-lucide="cloud-rain" class="w-5 h-5 text-slate-400"></i>
-                    <span class="text-sm data-lang" data-en="2. Rainfall Stations" data-th="2. สถานีวัดน้ำฝน">2. สถานีวัดน้ำฝน</span>
+                
+                <!-- 2. สถานีวัดน้ำฝน -->
+                <a href="gauge_stations.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all font-medium">
+                    <i data-lucide="cloud-rain" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                    <span class="data-lang" data-en="2. Rainfall Stations" data-th="2. สถานีวัดน้ำฝน">2. สถานีวัดน้ำฝน</span>
                 </a>
-                <a href="water_levels.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-700 font-semibold shadow-sm transition-all">
-                    <i data-lucide="waves" class="w-5 h-5 text-blue-600"></i>
-                    <span class="text-sm data-lang" data-en="3. Water Level Situations" data-th="3. สถานการณ์ระดับน้ำ">3. สถานการณ์ระดับน้ำ</span>
+
+                <!-- 3. สถานีวัดระดับน้ำ (Active Page) -->
+                <a href="water_levels.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-blue-50 text-blue-700 font-bold shadow-sm transition-all">
+                    <i data-lucide="waves" class="w-4 h-4 text-blue-600 shrink-0"></i>
+                    <span class="data-lang" data-en="3. Water Level Stations" data-th="3. สถานีวัดระดับน้ำ">3. สถานีวัดระดับน้ำ</span>
                 </a>
-                <a href="rainfall_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 transition-all">
-                    <i data-lucide="play-circle" class="w-5 h-5 text-slate-400"></i>
-                    <span class="text-sm data-lang" data-en="4. Animation Radar Rainfall" data-th="4. แอนิเมชันเรดาร์น้ำฝน">4. แอนิเมชันเรดาร์น้ำฝน</span>
-                </a>
-                <a href="district_rainfall.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 transition-all">
-                    <i data-lucide="map-pin" class="w-5 h-5 text-slate-400"></i>
-                    <span class="text-sm data-lang" data-en="5. District Accumulation" data-th="5. ปริมาณฝนสะสมรายอำเภอ">5. ปริมาณฝนสะสมรายอำเภอ</span>
-                </a>
+
+                <!-- 4. สถานการณ์อัตราการไหล (กำลังปรับปรุง) -->
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
+                    <i data-lucide="activity" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-semibold data-lang" data-en="4. Discharge Situation (Under Maintenance)" data-th="4. สถานการณ์อัตราการไหล (กำลังปรับปรุง)">4. สถานการณ์อัตราการไหล (กำลังปรับปรุง)</span>
+                </div>
+
+                <!-- 5. ภาพเคลื่อนไหวฝนเรดาร์ (กำลังปรับปรุง) -->
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
+                    <i data-lucide="play-circle" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-semibold data-lang" data-en="5. Radar Animation (Under Maintenance)" data-th="5. ภาพเคลื่อนไหวฝนเรดาร์ (กำลังปรับปรุง)">5. ภาพเคลื่อนไหวฝนเรดาร์ (กำลังปรับปรุง)</span>
+                </div>
+
+                <!-- 6. สถานการณ์ฝนเรดาร์เชิงพื้นที่ (กำลังปรับปรุง) -->
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
+                    <i data-lucide="map-pin" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-semibold data-lang" data-en="6. Spatial Radar Rainfall (Under Maintenance)" data-th="6. สถานการณ์ฝนเรดาร์เชิงพื้นที่ (กำลังปรับปรุง)">6. สถานการณ์ฝนเรดาร์เชิงพื้นที่ (กำลังปรับปรุง)</span>
+                </div>
+
+                <!-- 7. แผนที่น้ำท่วม (กำลังปรับปรุง) -->
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
+                    <i data-lucide="map" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-semibold data-lang" data-en="7. Flood Mapping (Under Maintenance)" data-th="7. แผนที่น้ำท่วม (กำลังปรับปรุง)">7. แผนที่น้ำท่วม (กำลังปรับปรุง)</span>
+                </div>
             </nav>
         </div>
         <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-400 font-medium">
@@ -78,11 +99,11 @@
     <main class="flex-1 flex flex-col h-screen max-h-screen min-w-0 p-6 md:p-8 space-y-6 overflow-hidden">
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-200 gap-4">
             <div>
-                <h2 class="text-2xl font-bold tracking-tight text-slate-900 data-lang" data-en="Nan River Water Level Situation Map" data-th="แผนที่สถานการณ์ระดับน้ำ จังหวัดน่าน">แผนที่สถานการณ์ระดับน้ำ จังหวัดน่าน</h2>
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900 data-lang" data-en="Telemetric Water Level Station Data" data-th="ข้อมูลระดับน้ำจากสถานีวัดน้ำท่า">ข้อมูลระดับน้ำจากสถานีวัดน้ำท่า</h2>
                 <div class="mt-1 flex flex-wrap items-center gap-2">
-                    <p class="text-sm text-slate-500 data-lang" data-en="Nan River Basin & Tributaries Runoff Telemetry" data-th="สถานการณ์ระดับน้ำในลุ่มน้ำน่านและลำน้ำสาขา">สถานการณ์ระดับน้ำในลุ่มน้ำน่านและลำน้ำสาขา</p>
-                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-blue-600 text-white shadow-sm font-mono tracking-wide">
-                        <i data-lucide="clock" class="w-3.5 h-3.5"></i> 18 Aug 2026 - Present
+                    <p class="text-sm text-slate-500 data-lang" data-en="Automated Water Level Telemetry Data in Nan Province from Related Agencies" data-th="การแสดงข้อมูลระดับน้ำจากสถานีวัดน้ำท่าในจังหวัดน่าน จากหน่วยงานต่าง ๆ ที่เกี่ยวข้อง">การแสดงข้อมูลระดับน้ำจากสถานีวัดน้ำท่าในจังหวัดน่าน จากหน่วยงานต่าง ๆ ที่เกี่ยวข้อง</p>
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-blue-600 text-white shadow-sm font-mono tracking-wide data-lang" data-en="Last Updated: 20 Aug 2026 at 15:00" data-th="อัปเดตข้อมูลล่าสุด: 20 สิงหาคม 2569 เวลา 15.00 น.">
+                        <i data-lucide="clock" class="w-3.5 h-3.5"></i> อัปเดตข้อมูลล่าสุด: 20 สิงหาคม 2569 เวลา 15.00 น.
                     </span>
                 </div>
             </div>
@@ -111,16 +132,16 @@
                 </div>
                 <div id="map" class="w-full flex-1 bg-slate-100 min-h-0"></div>
             </div>
-        
+
             <!-- Stations List Panel -->
             <div class="xl:col-span-2 flex flex-col h-full min-h-0 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
                 <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex justify-between items-center shrink-0">
                     <span class="flex items-center gap-2 data-lang" data-en="Runoff Stations List" data-th="รายชื่อสถานีวัดน้ำท่า"><i data-lucide="activity" class="w-3.5 h-3.5"></i> รายชื่อสถานีวัดน้ำท่า</span>
                     <span id="counter-badge" class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[11px] font-bold">0 Active</span>
                 </div>
-                
+
                 <div id="stations-list-container" class="p-4 overflow-y-auto divide-y divide-slate-100 flex-1 min-h-0 space-y-3 bg-slate-50/30"></div>
-                
+
                 <div class="p-3.5 bg-slate-50 border-t border-slate-200 text-[11px] text-slate-500 leading-relaxed shrink-0 mt-auto">
                     <div class="flex items-center gap-1.5 font-bold text-slate-700 uppercase tracking-wide mb-1.5">
                         <i data-lucide="award" class="w-3.5 h-3.5 text-blue-600"></i>
@@ -134,6 +155,7 @@
                     <ul class="space-y-1 font-semibold text-slate-700 font-mono text-[10px]">
                         <li class="flex items-center gap-1.5">• Royal Irrigation Department (RID) / กรมชลประทาน</li>
                         <li class="flex items-center gap-1.5">• Department of Water Resources (DWR) / กรมทรัพยากรน้ำ</li>
+                        <li class="flex items-center gap-1.5">• Hydro-Informatics Institute (HII) / สถาบันสารสนเทศทรัพยากรน้ำ</li>
                     </ul>
                 </div>
             </div>
@@ -165,11 +187,11 @@
         let map, markerLayerGroup, activeChartInstance = null;
         let nativeLayerControl = null;
         let currentLang = 'th';
-
+    
         // โหลดข้อมูลสถานีจาก data/nan_water_stations.json
         async function loadNanWaterStations() {
             try {
-                const response = await fetch('data/nan_water_stations.json');
+                const response = await fetch('data/nan_water_stations.json?t=' + Date.now());
                 if (response.ok) {
                     waterStationsData = await response.json();
                 } else {
@@ -178,304 +200,299 @@
             } catch (err) {
                 console.warn('Could not load data/nan_water_stations.json:', err);
             } finally {
-                generateRiverDropdownFilters(waterStationsData);
+                generateAgencyDropdownFilters(waterStationsData);
                 executeCombinedFilters();
             }
         }
-
+    
         function toggleLanguage() {
             currentLang = currentLang === 'th' ? 'en' : 'th';
             document.getElementById('langText').innerText = currentLang === 'th' ? 'TH / ภาษาไทย' : 'EN / English';
-            
+    
             document.querySelectorAll('.data-lang').forEach(el => {
                 const text = el.getAttribute(`data-${currentLang}`);
                 if (text) el.innerText = text;
             });
-
+    
             const searchInput = document.getElementById('search-input');
             const ph = searchInput.getAttribute(`data-placeholder-${currentLang}`);
             if (ph) searchInput.placeholder = ph;
-
+    
             updateLegendUI();
-            generateRiverDropdownFilters(waterStationsData);
+            generateAgencyDropdownFilters(waterStationsData);
             executeCombinedFilters();
         }
-
+    
         function updateLegendUI() {
             const container = document.getElementById('status-legend-container');
             if(currentLang === 'en') {
                 container.innerHTML = `
+                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-slate-400 block"></span> No Data</span>
                     <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 block"></span> Normal</span>
                     <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 block"></span> Warning</span>
                     <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-red-500 block"></span> Overflow</span>
                 `;
             } else {
                 container.innerHTML = `
+                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-slate-400 block"></span> ไม่มีข้อมูล</span>
                     <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 block"></span> ปกติ</span>
                     <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 block"></span> เฝ้าระวัง</span>
                     <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-red-500 block"></span> ล้นตลิ่ง</span>
                 `;
             }
         }
-
+    
         function initMapFramework() {
             map = L.map('map').setView([18.7813, 100.7730], 9);
             L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
             }).addTo(map);
-
+    
             markerLayerGroup = L.layerGroup().addTo(map);
             nativeLayerControl = L.control.layers(null, null, { position: 'topright', collapsed: false }).addTo(map);
-
+    
             const overlayLayersConfig = [
-                { 
-                    key: 'basin', 
-                    name: 'ขอบเขตลุ่มน้ำน่าน (Main Basin)', 
-                    url: 'data/nan_basin_boundary_4326.geojson', 
-                    color: '#1e293b', 
-                    weight: 2.5, 
-                    dashArray: '8, 6', // เส้นประยาวลุ่มน้ำหลัก
-                    active: false 
-                },
-                { 
-                    key: 'subbasin', 
-                    name: 'ขอบเขตลุ่มน้ำย่อย (Sub Basin)', 
-                    url: 'data/nan_subbasin_boundary_4326.geojson', 
-                    color: '#475569', 
-                    weight: 1.5, 
-                    dashArray: '5, 5', // เส้นประลุ่มน้ำย่อย
-                    active: false 
-                },
-                { 
-                    key: 'river', 
-                    name: 'ลำน้ำสายหลัก (Main Rivers)', 
-                    url: 'data/nan_main_rivers.geojson', 
-                    color: '#0000ff', // โทนสีฟ้าสายน้ำมาตรฐาน
-                    weight: 1.0, 
-                    active: true 
-                },
-                { 
-                    key: 'province', 
-                    name: 'ขอบเขตจังหวัดน่าน (Province)', 
-                    url: 'data/nan_province_boundary.geojson', 
-                    color: '#0f172a', // เส้นทึบเข้มขอบเขตจังหวัด
-                    weight: 2.2, 
-                    active: true 
-                },
-                { 
-                    key: 'district', 
-                    name: 'ขอบเขตอำเภอ (District)', 
-                    url: 'data/nan_district_boundary.geojson', 
-                    color: '#64748b', 
-                    weight: 1.0, 
-                    dashArray: '3, 3', // เส้นประจุดอำเภอ
-                    active: false 
-                }
+                { key: 'basin', name: 'ขอบเขตลุ่มน้ำน่าน (Main Basin)', url: 'data/nan_basin_boundary_4326.geojson', color: '#1e293b', weight: 2.5, dashArray: '8, 6', active: false },
+                { key: 'subbasin', name: 'ขอบเขตลุ่มน้ำย่อย (Sub Basin)', url: 'data/nan_subbasin_boundary_4326.geojson', color: '#475569', weight: 1.5, dashArray: '5, 5', active: false },
+                { key: 'river', name: 'ลำน้ำสายหลัก (Main Rivers)', url: 'data/nan_main_rivers.geojson', color: '#0000ff', weight: 1.0, active: true },
+                { key: 'province', name: 'ขอบเขตจังหวัดน่าน (Province)', url: 'data/nan_province_boundary.geojson', color: '#0f172a', weight: 2.2, active: true },
+                { key: 'district', name: 'ขอบเขตอำเภอ (District)', url: 'data/nan_district_boundary.geojson', color: '#64748b', weight: 1.0, dashArray: '3, 3', active: false }
             ];
-
-        overlayLayersConfig.forEach(b => {
-            fetch(b.url)
-                .then(response => { if (response.ok) return response.json(); throw new Error('File not found'); })
-                .then(geoJsonData => {
-                    if (geoJsonData) {
-                        let geoLayer = L.geoJSON(geoJsonData, {
-                            interactive: false,
-                            style: { 
-                                color: b.color, 
-                                weight: b.weight, 
-                                dashArray: b.dashArray || null, // นำรูปแบบเส้นประไปประยุกต์ใช้
-                                fillColor: 'transparent', 
-                                fillOpacity: 0 
+    
+            overlayLayersConfig.forEach(b => {
+                fetch(b.url)
+                    .then(response => { if (response.ok) return response.json(); throw new Error('File not found'); })
+                    .then(geoJsonData => {
+                        if (geoJsonData) {
+                            let geoLayer = L.geoJSON(geoJsonData, {
+                                interactive: false,
+                                style: { color: b.color, weight: b.weight, dashArray: b.dashArray || null, fillColor: 'transparent', fillOpacity: 0 }
+                            });
+                            nativeLayerControl.addOverlay(geoLayer, b.name);
+                            if (b.active) {
+                                geoLayer.addTo(map);
+                                geoLayer.bringToBack();
                             }
-                        });
-                        nativeLayerControl.addOverlay(geoLayer, b.name);
-                        if (b.active) {
-                            geoLayer.addTo(map);
-                            geoLayer.bringToBack();
                         }
-                    }
-                }).catch(err => console.warn(`Layer loading skipped: ${b.url}`));
+                    }).catch(err => console.warn(`Layer loading skipped: ${b.url}`));
             });
         }
-
+    
         function updateDashboardViews(filteredArray) {
-            markerLayerGroup.clearLayers();
-            const listContainer = document.getElementById('stations-list-container');
-            listContainer.innerHTML = "";
-
-            const foundWord = currentLang === 'en' ? `Total ${filteredArray.length} Station(s)` : `พบทั้งหมด ${filteredArray.length} สถานี`;
-            document.getElementById('counter-badge').innerText = foundWord;
-
-            if(filteredArray.length === 0) {
-                const noStationsWord = currentLang === 'en' ? 'No runoff stations match search parameters.' : 'ไม่พบสถานีระดับน้ำที่ตรงตามเงื่อนไข';
-                listContainer.innerHTML = `<div class="text-center py-8 text-xs font-medium text-slate-400">${noStationsWord}</div>`;
-                return;
-            }
-
-            filteredArray.forEach(stn => {
-                const lat = parseFloat(stn.Latitude || stn.latitude);
-                const lon = parseFloat(stn.Longitude || stn.longitude);
-                if (isNaN(lat) || isNaN(lon)) return;
-
-                const currentLevel = parseFloat(stn["Current Level"] || stn.current_level || 0);
-                const warningLevel = parseFloat(stn["Warning Level"] || stn.warning_level || 0);
-                const overbankLevel = parseFloat(stn["Overbank Level"] || stn.overbank_level || 0);
-
-                let statusColorClass = "bg-emerald-500";
-                let statusText = currentLang === 'en' ? "Normal" : "ปกติ";
-                let markerColor = "#10b981";
-
-                if (overbankLevel > 0 && currentLevel >= overbankLevel) {
-                    statusColorClass = "bg-red-500";
-                    statusText = currentLang === 'en' ? "Overflow" : "ล้นตลิ่ง";
-                    markerColor = "#ef4444";
-                } else if (warningLevel > 0 && currentLevel >= warningLevel) {
-                    statusColorClass = "bg-amber-500";
-                    statusText = currentLang === 'en' ? "Warning" : "เฝ้าระวัง";
-                    markerColor = "#f59e0b";
+            try {
+                markerLayerGroup.clearLayers();
+                const listContainer = document.getElementById('stations-list-container');
+                if (!listContainer) return;
+                listContainer.innerHTML = "";
+    
+                const foundWord = currentLang === 'en' ? `Total ${filteredArray.length} Station(s)` : `พบทั้งหมด ${filteredArray.length} สถานี`;
+                const badgeEl = document.getElementById('counter-badge');
+                if (badgeEl) badgeEl.innerText = foundWord;
+    
+                if (!filteredArray || filteredArray.length === 0) {
+                    const noStationsWord = currentLang === 'en' ? 'No runoff stations match search parameters.' : 'ไม่พบสถานีระดับน้ำที่ตรงตามเงื่อนไข';
+                    listContainer.innerHTML = `<div class="text-center py-8 text-xs font-medium text-slate-400">${noStationsWord}</div>`;
+                    return;
                 }
-
-                const marker = L.circleMarker([lat, lon], {
-                    radius: 7.5, fillColor: markerColor, color: '#ffffff', weight: 1.8, opacity: 1, fillOpacity: 0.9
+    
+                filteredArray.forEach(stn => {
+                    try {
+                        const lat = parseFloat(stn.Latitude || stn.latitude || 0);
+                        const lon = parseFloat(stn.Longitude || stn.longitude || 0);
+                        if (isNaN(lat) || isNaN(lon) || lat === 0 || lon === 0) return;
+    
+                        // 1. ดึงระดับน้ำล่าสุด
+                        const hourlySeries = stn["Hourly Data"] || stn.hourly_data || stn.hourly_series || [];
+                        let currentLevel = null;
+    
+                        if (Array.isArray(hourlySeries)) {
+                            for (let i = hourlySeries.length - 1; i >= 0; i--) {
+                                const val = parseFloat(hourlySeries[i]);
+                                if (hourlySeries[i] !== null && hourlySeries[i] !== undefined && !isNaN(val)) {
+                                    currentLevel = val;
+                                    break;
+                                }
+                            }
+                        }
+    
+                        if (currentLevel === null) {
+                            const fallback = parseFloat(stn["Current Level"] ?? stn.current_level);
+                            if (!isNaN(fallback)) currentLevel = fallback;
+                        }
+    
+                        // 2. แปลงค่า Warning / Overbank ป้องกัน NaN
+                        const rawWarn = parseFloat(stn["Warning Level"] ?? stn.warning_level);
+                        const warningLevel = !isNaN(rawWarn) ? rawWarn : 0;
+    
+                        const rawOver = parseFloat(stn["Overbank Level"] ?? stn.overbank_level);
+                        const overbankLevel = !isNaN(rawOver) ? rawOver : 0;
+    
+                        // 3. กำหนดสถานะ (ปรับปรุง: กรณีไม่มีข้อมูล/เป็น 0 ให้แสดงสีเทา)
+                        let statusColorClass = "bg-slate-400";
+                        let statusText = currentLang === 'en' ? "No Data" : "ไม่มีข้อมูล";
+                        let markerColor = "#94a3b8";
+    
+                        if (currentLevel !== null && currentLevel > 0) {
+                            if (overbankLevel > 0 && currentLevel >= overbankLevel) {
+                                statusColorClass = "bg-red-500";
+                                statusText = currentLang === 'en' ? "Overflow" : "ล้นตลิ่ง";
+                                markerColor = "#ef4444";
+                            } else if (warningLevel > 0 && currentLevel >= warningLevel) {
+                                statusColorClass = "bg-amber-500";
+                                statusText = currentLang === 'en' ? "Warning" : "เฝ้าระวัง";
+                                markerColor = "#f59e0b";
+                            } else {
+                                statusColorClass = "bg-emerald-500";
+                                statusText = currentLang === 'en' ? "Normal" : "ปกติ";
+                                markerColor = "#10b981";
+                            }
+                        }
+    
+                        // 4. วาดหมุด Leaflet
+                        const marker = L.circleMarker([lat, lon], {
+                            radius: 7.5, fillColor: markerColor, color: '#ffffff', weight: 1.8, opacity: 1, fillOpacity: 0.9
+                        });
+    
+                        const stnCode = stn["Station Code"] || stn.station_code || "";
+                        const stnName = stn["Station Name"] || stn.station_name || "";
+                        const stnRiver = stn.River || stn.river || "-";
+                        const stnAmphoe = stn.Amphoe || stn.district || stn.district_name || "";
+                        const stnProvince = stn.Province || stn.province || "";
+                        const stnAgency = stn.Agency || stn.agency || "";
+    
+                        const levelDisplayStr = (currentLevel !== null && currentLevel > 0) ? `${currentLevel.toFixed(2)} m. (MSL)` : "-";
+    
+                        marker.bindPopup(`
+                            <div class="text-xs space-y-1 font-sans">
+                                <b>[${stnAgency}] ${stnName} (${stnCode})</b><br>
+                                ลำน้ำ: <b>${stnRiver}</b><br>
+                                พิกัด: ${stnAmphoe} ${stnProvince}<br>
+                                ระดับน้ำล่าสุด: <span class="font-bold text-blue-600">${levelDisplayStr}</span><br>
+                                สถานการณ์: <span class="font-bold" style="color:${markerColor}">${statusText}</span>
+                            </div>
+                        `);
+                        markerLayerGroup.addLayer(marker);
+    
+                        // 5. ข้อความเกณฑ์เตือนภัย
+                        const strWarn = warningLevel > 0 ? warningLevel.toFixed(2) + ' ม.' : '-';
+                        const strOver = overbankLevel > 0 ? overbankLevel.toFixed(2) + ' ม.' : '-';
+                        const cardLevelStr = (currentLevel !== null && currentLevel > 0) ? currentLevel.toFixed(2) : '-';
+    
+                        // 6. สร้างการ์ด HTML
+                        const card = document.createElement('div');
+                        card.className = "bg-white p-4 border border-slate-200/80 rounded-lg shadow-sm hover:border-blue-400 transition flex items-start justify-between gap-4 group cursor-pointer";
+                        card.innerHTML = `
+                            <div class="space-y-1 min-w-0 flex-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded text-[10px] font-mono font-bold border border-slate-200">${stnCode}</span>
+                                    <span class="${statusColorClass} text-white font-bold text-[9px] px-1.5 py-0.5 rounded uppercase tracking-wider">${statusText}</span>
+                                </div>
+                                <h4 class="text-sm font-bold text-slate-900 tracking-tight truncate">${stnName}</h4>
+                                <p class="text-xs text-slate-500 font-medium flex items-center gap-1">
+                                    <i data-lucide="navigation" class="w-3 h-3 text-slate-400 shrink-0"></i>
+                                    <span class="truncate">ลำน้ำ: <b>${stnRiver}</b> | ${stnAmphoe} (${stnAgency})</span>
+                                </p>
+                                <div class="grid grid-cols-2 gap-2 text-[11px] pt-2 text-slate-500 font-medium font-mono border-t border-slate-50 mt-2">
+                                    <div>ระดับเฝ้าระวัง: <span class="text-slate-800 font-bold">${strWarn}</span></div>
+                                    <div>ระดับตลิ่ง: <span class="text-slate-800 font-bold">${strOver}</span></div>
+                                </div>
+                            </div>
+                            <div class="text-right shrink-0 flex flex-col items-end justify-between self-stretch pl-2">
+                                <div>
+                                    <span class="block text-[10px] text-slate-400 font-bold uppercase tracking-wider">ระดับน้ำล่าสุด</span>
+                                    <span class="text-base font-black text-blue-600 font-mono">${cardLevelStr} ${cardLevelStr !== '-' ? '<span class="text-xs font-medium text-slate-500">ม.</span>' : ''}</span>
+                                </div>
+                                <button onclick="event.stopPropagation(); launchGraphEngine('${stnCode}')" class="flex items-center gap-1 px-2.5 py-1.5 bg-slate-900 hover:bg-blue-600 text-white rounded text-xs font-semibold tracking-tight transition shadow-sm">
+                                    <i data-lucide="area-chart" class="w-3 h-3"></i> ดูกราฟ
+                                </button>
+                            </div>
+                        `;
+    
+                        card.onclick = () => {
+                            map.setView([lat, lon], 12);
+                            marker.openPopup();
+                        };
+    
+                        listContainer.appendChild(card);
+                    } catch (err) {
+                        console.error("Error rendering station card:", err, stn);
+                    }
                 });
-                
-                const riverWord = currentLang === 'en' ? 'River' : 'ลำน้ำ';
-                const coordWord = currentLang === 'en' ? 'Location' : 'พิกัด';
-                const levelWord = currentLang === 'en' ? 'Current Stage' : 'ระดับน้ำปัจจุบัน';
-                const statusWord = currentLang === 'en' ? 'Situation' : 'สถานการณ์';
-
-                const stnCode = stn["Station Code"] || stn.station_code || "";
-                const stnName = stn["Station Name"] || stn.station_name || "";
-                const stnRiver = stn.River || stn.river || "-";
-                const stnAmphoe = stn.Amphoe || stn.district || "";
-                const stnProvince = stn.Province || stn.province || "";
-                const stnAgency = stn.Agency || stn.agency || "";
-
-                marker.bindPopup(`
-                    <div class="text-xs space-y-1 font-sans">
-                        <b>[${stnAgency}] ${stnName} (${stnCode})</b><br>
-                        ${riverWord}: <b>${stnRiver}</b><br>
-                        ${coordWord}: ${stnAmphoe} ${stnProvince}<br>
-                        ${levelWord}: <span class="font-bold text-blue-600">${currentLevel.toFixed(2)} m. (MSL)</span><br>
-                        ${statusWord}: <span class="font-bold" style="color:${markerColor}">${statusText}</span>
-                    </div>
-                `);
-                markerLayerGroup.addLayer(marker);
-
-                const labelWarning = currentLang === 'en' ? 'Warning:' : 'ระดับเฝ้าระวัง:';
-                const labelOverbank = currentLang === 'en' ? 'Overbank:' : 'ระดับตลิ่ง:';
-                const labelHour = currentLang === 'en' ? 'Current Level' : 'ระดับน้ำปัจจุบัน';
-                const graphBtnText = currentLang === 'en' ? 'Graph' : 'ดูกราฟ';
-                const unitM = currentLang === 'en' ? 'm.' : 'ม.';
-
-                const card = document.createElement('div');
-                card.className = "bg-white p-4 border border-slate-200/80 rounded-lg shadow-sm hover:border-blue-400 transition flex items-start justify-between gap-4 group cursor-pointer";
-                card.innerHTML = `
-                    <div class="space-y-1 min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <span class="bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded text-[10px] font-mono font-bold border border-slate-200">${stnCode}</span>
-                            <span class="${statusColorClass} text-white font-bold text-[9px] px-1.5 py-0.5 rounded uppercase tracking-wider">${statusText}</span>
-                        </div>
-                        <h4 class="text-sm font-bold text-slate-900 tracking-tight truncate">${stnName}</h4>
-                        <p class="text-xs text-slate-500 font-medium flex items-center gap-1">
-                            <i data-lucide="navigation" class="w-3 h-3 text-slate-400 shrink-0"></i>
-                            <span class="truncate">${riverWord}: <b>${stnRiver}</b> | ${stnAmphoe}</span>
-                        </p>
-                        <div class="grid grid-cols-2 gap-2 text-[11px] pt-2 text-slate-500 font-medium font-mono border-t border-slate-50 mt-2">
-                            <div>${labelWarning} <span class="text-slate-800 font-bold">${warningLevel.toFixed(2)}${unitM}</span></div>
-                            <div>${labelOverbank} <span class="text-slate-800 font-bold">${overbankLevel.toFixed(2)}${unitM}</span></div>
-                        </div>
-                    </div>
-                    <div class="text-right shrink-0 flex flex-col items-end justify-between self-stretch pl-2">
-                        <div>
-                            <span class="block text-[10px] text-slate-400 font-bold uppercase tracking-wider">${labelHour}</span>
-                            <span class="text-base font-black text-blue-600 font-mono">${currentLevel.toFixed(2)} <span class="text-xs font-medium text-slate-500">${unitM}</span></span>
-                        </div>
-                        <button onclick="event.stopPropagation(); launchGraphEngine('${stnCode}')" class="flex items-center gap-1 px-2.5 py-1.5 bg-slate-900 hover:bg-blue-600 text-white rounded text-xs font-semibold tracking-tight transition shadow-sm">
-                            <i data-lucide="area-chart" class="w-3 h-3"></i> ${graphBtnText}
-                        </button>
-                    </div>
-                `;
-                
-                card.onclick = () => {
-                    map.setView([lat, lon], 12);
-                    marker.openPopup();
-                };
-
-                listContainer.appendChild(card);
-            });
-
-            lucide.createIcons();
+    
+                if (window.lucide) lucide.createIcons();
+            } catch (globalErr) {
+                console.error("Global render error:", globalErr);
+            }
         }
-
-        function generateRiverDropdownFilters(data) {
+    
+        // ปรับสร้าง ตัวกรองรายหน่วยงาน แทน ลำน้ำ
+        function generateAgencyDropdownFilters(data) {
             const selectEl = document.getElementById('river-filter');
+            if (!selectEl) return;
             const currentSelected = selectEl.value;
             selectEl.innerHTML = '';
-            
+    
             const defaultOpt = document.createElement('option');
             defaultOpt.value = "ALL";
-            defaultOpt.innerText = currentLang === 'en' ? "All Rivers (Show All)" : "ลำน้ำทั้งหมด (แสดงทั้งหมด)";
+            defaultOpt.innerText = currentLang === 'en' ? "All Agencies (Show All)" : "หน่วยงานทั้งหมด (แสดงทั้งหมด)";
             selectEl.appendChild(defaultOpt);
-
-            const rivers = [...new Set(data.map(item => item.River || item.river))].filter(Boolean).sort();
-            rivers.forEach(rv => {
+    
+            const agencies = [...new Set(data.map(item => item.Agency || item.agency))].filter(Boolean).sort();
+            agencies.forEach(ag => {
                 const opt = document.createElement('option');
-                opt.value = rv;
-                opt.innerText = currentLang === 'en' ? `River: ${rv}` : `ลำน้ำ: ${rv}`;
+                opt.value = ag;
+                opt.innerText = currentLang === 'en' ? `Agency: ${ag}` : `หน่วยงาน: ${ag}`;
                 selectEl.appendChild(opt);
             });
-
+    
             selectEl.value = currentSelected || "ALL";
         }
-
+    
         function executeCombinedFilters() {
             const searchVal = document.getElementById('search-input').value.toLowerCase().trim();
-            const riverVal = document.getElementById('river-filter').value;
-
+            const agencyVal = document.getElementById('river-filter').value;
+    
             const finalFiltered = waterStationsData.filter(stn => {
+                const stnAgency = stn.Agency || stn.agency || "";
                 const stnRiver = stn.River || stn.river || "";
                 const stnCode = stn["Station Code"] || stn.station_code || "";
                 const stnName = stn["Station Name"] || stn.station_name || "";
-                const stnAmphoe = stn.Amphoe || stn.district || "";
-
-                const matchesRiver = (riverVal === "ALL" || stnRiver === riverVal);
+                const stnAmphoe = stn.Amphoe || stn.district || stn.district_name || "";
+    
+                const matchesAgency = (agencyVal === "ALL" || stnAgency === agencyVal);
                 const codeMatch = stnCode.toLowerCase().includes(searchVal);
                 const nameMatch = stnName.toLowerCase().includes(searchVal);
                 const riverMatch = stnRiver.toLowerCase().includes(searchVal);
                 const distMatch = stnAmphoe.toLowerCase().includes(searchVal);
-
-                return matchesRiver && (codeMatch || nameMatch || riverMatch || distMatch);
+                const agencyMatch = stnAgency.toLowerCase().includes(searchVal);
+    
+                return matchesAgency && (codeMatch || nameMatch || riverMatch || distMatch || agencyMatch);
             });
-
+    
             updateDashboardViews(finalFiltered);
         }
-
-        // ฟังก์ชันสร้างและแสดงกราฟ Hydrograph ดึงจาก Timestamps และ Hourly Data จริงใน JSON
+    
         window.launchGraphEngine = function(stationCode) {
             const targetData = waterStationsData.find(s => (s["Station Code"] || s.station_code) === stationCode);
             if (!targetData) return;
-
+    
             const stnName = targetData["Station Name"] || targetData.station_name || "";
             const stnCode = targetData["Station Code"] || targetData.station_code || "";
             const stnRiver = targetData.River || targetData.river || "-";
-            const stnAmphoe = targetData.Amphoe || targetData.district || "";
+            const stnAmphoe = targetData.Amphoe || targetData.district || targetData.district_name || "";
             const stnProvince = targetData.Province || targetData.province || "";
-
+    
             document.getElementById('modal-station-title').innerText = `สถานี ${stnName} (${stnCode}) - Hydrograph`;
             document.getElementById('modal-station-subtitle').innerText = `ลำน้ำ: ${stnRiver} | พิกัด: ${stnAmphoe} ${stnProvince}`;
-
+    
             const ctx = document.getElementById('telemetry-chart-canvas').getContext('2d');
             if (activeChartInstance !== null) { activeChartInstance.destroy(); }
-
-            const timeLabels = (targetData.Timestamps && targetData.Timestamps.length > 0) 
-                ? targetData.Timestamps 
-                : ["18/08 00:00", "19/08 00:00", "20/08 00:00"];
-
-            const waterLevelSeries = targetData["Hourly Data"] || targetData.hourly_data || [];
-            const warningThreshold = parseFloat(targetData["Warning Level"] || targetData.warning_level || 0);
-            const overbankThreshold = parseFloat(targetData["Overbank Level"] || targetData.overbank_level || 0);
-
+    
+            const timeLabels = targetData.Timestamps || targetData.timestamps || [];
+            const waterLevelSeries = targetData["Hourly Data"] || targetData.hourly_data || targetData.hourly_series || [];
+            const warningThreshold = parseFloat(targetData["Warning Level"] ?? targetData.warning_level ?? 0);
+            const overbankThreshold = parseFloat(targetData["Overbank Level"] ?? targetData.overbank_level ?? 0);
+    
             activeChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -495,7 +512,7 @@
                         },
                         {
                             label: 'ระดับเฝ้าระวัง',
-                            data: Array(timeLabels.length).fill(warningThreshold),
+                            data: Array(timeLabels.length).fill(isNaN(warningThreshold) || warningThreshold === 0 ? null : warningThreshold),
                             borderColor: '#f59e0b',
                             borderWidth: 1.5,
                             borderDash: [6, 4],
@@ -503,7 +520,7 @@
                         },
                         {
                             label: 'ระดับตลิ่ง',
-                            data: Array(timeLabels.length).fill(overbankThreshold),
+                            data: Array(timeLabels.length).fill(isNaN(overbankThreshold) || overbankThreshold === 0 ? null : overbankThreshold),
                             borderColor: '#ef4444',
                             borderWidth: 2,
                             borderDash: [4, 2],
@@ -514,18 +531,11 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false
-                    },
+                    interaction: { mode: 'index', intersect: false },
                     scales: {
                         x: {
                             grid: { display: false },
-                            ticks: {
-                                maxRotation: 0,
-                                autoSkip: true,
-                                maxTicksLimit: 10
-                            }
+                            ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 10 }
                         },
                         y: {
                             title: {
@@ -547,19 +557,19 @@
                     }
                 }
             });
-
+    
             document.getElementById('chart-modal').classList.remove('hidden');
         };
-
+    
         window.closeGraphModal = function() {
             document.getElementById('chart-modal').classList.add('hidden');
         };
-
+    
         document.addEventListener('DOMContentLoaded', () => {
             initMapFramework();
             updateLegendUI();
             loadNanWaterStations();
-
+    
             document.getElementById('langToggle').addEventListener('click', toggleLanguage);
             document.getElementById('search-input').addEventListener('input', executeCombinedFilters);
             document.getElementById('river-filter').addEventListener('change', executeCombinedFilters);

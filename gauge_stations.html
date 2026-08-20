@@ -34,8 +34,8 @@
             <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-4">
                 <img src="data/Radar4flood_Icon_PNG.png" alt="Radar4Flood Logo" class="w-10 h-10 object-contain shrink-0" onerror="this.src='Radar4flood_Icon_PNG.png'">
                 <div>
-                    <h1 class="text-lg font-bold tracking-tight text-slate-900">น้ำท่วม น่าน 2026</h1>
-                    <p class="text-xs text-slate-500 font-medium">เหตุการณ์ 18 ส.ค. - ปัจจุบัน</p>
+                    <h1 class="text-base font-bold tracking-tight text-slate-900 data-lang" data-en="Nan Flood Situation 2026" data-th="สถานการณ์น้ำท่วม จ.น่าน พ.ศ. 2569">สถานการณ์น้ำท่วม จ.น่าน พ.ศ. 2569</h1>
+                    <p class="text-xs text-slate-500 font-medium data-lang" data-en="18 Aug 2026 - Present" data-th="18 ส.ค. 2569 - ปัจจุบัน">18 ส.ค. 2569 - ปัจจุบัน</p>
                 </div>
             </div>
 
@@ -46,27 +46,48 @@
                 </button>
             </div>
 
-            <nav class="space-y-1">
-                <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
-                    <i data-lucide="file-text" class="w-5 h-5"></i>
-                    <span class="text-xs font-semibold data-lang" data-en="1. Homepage (Pending)" data-th="1. สรุปภาพรวม (รอดำเนินการ)">1. สรุปภาพรวม (รอดำเนินการ)</span>
+            <nav class="space-y-1 text-xs">
+                <!-- 1. สรุปภาพรวม (กำลังปรับปรุง) -->
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
+                    <i data-lucide="file-text" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-semibold data-lang" data-en="1. Overview (Under Maintenance)" data-th="1. สรุปภาพรวม (กำลังปรับปรุง)">1. สรุปภาพรวม (กำลังปรับปรุง)</span>
                 </div>
-                <a href="gauge_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-700 font-semibold shadow-sm transition-all">
-                    <i data-lucide="cloud-rain" class="w-5 h-5 text-blue-600"></i>
-                    <span class="text-sm data-lang" data-en="2. Rainfall Stations" data-th="2. สถานีวัดน้ำฝน">2. สถานีวัดน้ำฝน</span>
+                
+                <!-- 2. สถานีวัดน้ำฝน (Active Page) -->
+                <a href="gauge_stations.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-blue-50 text-blue-700 font-bold shadow-sm transition-all">
+                    <i data-lucide="cloud-rain" class="w-4 h-4 text-blue-600 shrink-0"></i>
+                    <span class="data-lang" data-en="2. Rainfall Stations" data-th="2. สถานีวัดน้ำฝน">2. สถานีวัดน้ำฝน</span>
                 </a>
-                <a href="water_levels.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 transition-all">
-                    <i data-lucide="waves" class="w-5 h-5 text-slate-400"></i>
-                    <span class="text-sm data-lang" data-en="3. Water Level Situations" data-th="3. สถานการณ์ระดับน้ำ">3. สถานการณ์ระดับน้ำ</span>
+
+                <!-- 3. สถานีวัดระดับน้ำ -->
+                <a href="water_levels.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all font-medium">
+                    <i data-lucide="waves" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                    <span class="data-lang" data-en="3. Water Level Stations" data-th="3. สถานีวัดระดับน้ำ">3. สถานีวัดระดับน้ำ</span>
                 </a>
-                <a href="rainfall_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 transition-all">
-                    <i data-lucide="play-circle" class="w-5 h-5 text-slate-400"></i>
-                    <span class="text-sm data-lang" data-en="4. Animation Radar Rainfall" data-th="4. แอนิเมชันเรดาร์น้ำฝน">4. แอนิเมชันเรดาร์น้ำฝน</span>
-                </a>
-                <a href="district_rainfall.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 transition-all">
-                    <i data-lucide="map-pin" class="w-5 h-5 text-slate-400"></i>
-                    <span class="text-sm data-lang" data-en="5. District Accumulation" data-th="5. ปริมาณฝนสะสมรายอำเภอ">5. ปริมาณฝนสะสมรายอำเภอ</span>
-                </a>
+
+                <!-- 4. สถานการณ์อัตราการไหล (กำลังปรับปรุง) -->
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
+                    <i data-lucide="activity" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-semibold data-lang" data-en="4. Discharge Situation (Under Maintenance)" data-th="4. สถานการณ์อัตราการไหล (กำลังปรับปรุง)">4. สถานการณ์อัตราการไหล (กำลังปรับปรุง)</span>
+                </div>
+
+                <!-- 5. ภาพเคลื่อนไหวฝนเรดาร์ (กำลังปรับปรุง) -->
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
+                    <i data-lucide="play-circle" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-semibold data-lang" data-en="5. Radar Animation (Under Maintenance)" data-th="5. ภาพเคลื่อนไหวฝนเรดาร์ (กำลังปรับปรุง)">5. ภาพเคลื่อนไหวฝนเรดาร์ (กำลังปรับปรุง)</span>
+                </div>
+
+                <!-- 6. สถานการณ์ฝนเรดาร์เชิงพื้นที่ (กำลังปรับปรุง) -->
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
+                    <i data-lucide="map-pin" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-semibold data-lang" data-en="6. Spatial Radar Rainfall (Under Maintenance)" data-th="6. สถานการณ์ฝนเรดาร์เชิงพื้นที่ (กำลังปรับปรุง)">6. สถานการณ์ฝนเรดาร์เชิงพื้นที่ (กำลังปรับปรุง)</span>
+                </div>
+
+                <!-- 7. แผนที่น้ำท่วม (กำลังปรับปรุง) -->
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
+                    <i data-lucide="map" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-semibold data-lang" data-en="7. Flood Mapping (Under Maintenance)" data-th="7. แผนที่น้ำท่วม (กำลังปรับปรุง)">7. แผนที่น้ำท่วม (กำลังปรับปรุง)</span>
+                </div>
             </nav>
         </div>
         <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-400 font-medium">
@@ -78,11 +99,11 @@
     <main class="flex-1 flex flex-col h-screen max-h-screen min-w-0 p-6 md:p-8 space-y-6 overflow-hidden">
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-200 gap-4">
             <div>
-                <h2 class="text-2xl font-bold tracking-tight text-slate-900 data-lang" data-en="Rainfall Stations Telemetry Map" data-th="แผนที่ข้อมูลโทรมาตรสถานีวัดน้ำฝน">แผนที่ข้อมูลโทรมาตรสถานีวัดน้ำฝน</h2>
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900 data-lang" data-en="Telemetric Rainfall Station Data" data-th="ข้อมูลฝนจากสถานีโทรมาตร">ข้อมูลฝนจากสถานีโทรมาตร</h2>
                 <div class="mt-1 flex flex-wrap items-center gap-2">
-                    <p class="text-sm text-slate-500 data-lang" data-en="Real-time Rain Gauge Data in Nan Basin" data-th="การแสดงข้อมูลฝนจากสถานีวัดน้ำฝนแบบอัตโนมัติในพื้นที่ลุ่มน้ำน่าน">การแสดงข้อมูลฝนจากสถานีวัดน้ำฝนแบบอัตโนมัติในพื้นที่ลุ่มน้ำน่าน</p>
-                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-blue-600 text-white shadow-sm font-mono tracking-wide">
-                        <i data-lucide="clock" class="w-3.5 h-3.5"></i> 18 Aug 2026 - Present
+                    <p class="text-sm text-slate-500 data-lang" data-en="Automated Rain Gauge Data in Nan Province from Related Agencies" data-th="การแสดงข้อมูลฝนจากสถานีวัดน้ำฝนแบบอัตโนมัติในจังหวัดน่าน จากหน่วยงานต่าง ๆ ที่เกี่ยวข้อง">การแสดงข้อมูลฝนจากสถานีวัดน้ำฝนแบบอัตโนมัติในจังหวัดน่าน จากหน่วยงานต่าง ๆ ที่เกี่ยวข้อง</p>
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-blue-600 text-white shadow-sm font-mono tracking-wide data-lang" data-en="Last Updated: 20 Aug 2026 at 15:00" data-th="อัปเดตข้อมูลล่าสุด: 20 สิงหาคม 2569 เวลา 15.00 น.">
+                        <i data-lucide="clock" class="w-3.5 h-3.5"></i> อัปเดตข้อมูลล่าสุด: 20 สิงหาคม 2569 เวลา 15.00 น.
                     </span>
                 </div>
             </div>
@@ -95,8 +116,8 @@
                 <button onclick="switchTimeScale('daily')" id="btn-scale-daily" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all text-blue-700 bg-white shadow-sm data-lang" data-en="Daily" data-th="รายวัน">
                     รายวัน
                 </button>
-                <button onclick="switchTimeScale('event')" id="btn-scale-event" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 data-lang" data-en="Total Event" data-th="ภาพรวมเหตุการณ์">
-                    ภาพรวมเหตุการณ์
+                <button onclick="switchTimeScale('event')" id="btn-scale-event" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 data-lang" data-en="Total Event Accumulation" data-th="สะสมทั้งเหตุการณ์">
+                    สะสมทั้งเหตุการณ์
                 </button>
             </div>
         </header>
@@ -147,7 +168,7 @@
                 </div>
                 
                 <div id="stations-list-container" class="p-4 overflow-y-auto divide-y divide-slate-100 flex-1 min-h-0 space-y-3 bg-slate-50/30"></div>
-                
+
                 <div class="p-3.5 bg-slate-50 border-t border-slate-200 text-[11px] text-slate-500 leading-relaxed shrink-0 mt-auto">
                     <div class="flex items-center gap-1.5 font-bold text-slate-700 uppercase tracking-wide mb-1.5">
                         <i data-lucide="award" class="w-3.5 h-3.5 text-blue-600"></i>
@@ -190,34 +211,32 @@
         let timeControlTimeline = { "daily_steps": [], "hourly_steps": [] };
         let map, markerLayerGroup, popupChartInstance = null;
         let nativeLayerControl = null;
-        
+
         let currentTimeScale = 'daily'; 
         let currentTimeIndex = 0;        
         let currentLang = 'th';
 
-        // ปรับปรุงเกณฑ์สีการแสดงผล
         function getThresholdColor(val, scale) {
-            if (val === "-" || val === null || isNaN(val) || val < 0.2) return "#e2e8f0"; // ไม่มีฝน / ฝนตรวจวัดไม่ได้ (< 0.2 มม.)
-            
+            if (val === "-" || val === null || isNaN(val) || val < 0.2) return "#e2e8f0";
+
             if (scale === 'hourly') {
-                if (val <= 5) return "#10b981";    // ฝนเบา (0.2 - 5 มม./ชม.)
-                if (val <= 25) return "#f59e0b";   // ฝนปานกลาง (5 - 25 มม./ชม.)
-                if (val <= 50) return "#ef4444";   // ฝนหนัก (25 - 50 มม./ชม.)
-                return "#9333ea";                  // ฝนหนักมาก (> 50 มม./ชม.)
+                if (val <= 5) return "#10b981";    
+                if (val <= 25) return "#f59e0b";   
+                if (val <= 50) return "#ef4444";   
+                return "#9333ea";                  
             } else if (scale === 'daily') {
                 if (val <= 10) return "#10b981";  
                 if (val <= 35) return "#f59e0b";  
                 if (val <= 90) return "#ef4444";  
                 return "#9333ea";                 
-            } else { // Total Event
+            } else { 
                 if (val <= 50) return "#10b981";  
                 if (val <= 150) return "#f59e0b"; 
                 if (val <= 300) return "#ef4444"; 
                 return "#9333ea";                 
             }
         }
-        
-        // ปรับปรุงการแสดงผล Legend ด้านบนของแผนที่
+
         function updateLegendUI(scale) {
             const container = document.getElementById('legend-threshold-labels');
             if (scale === 'hourly') {
@@ -265,7 +284,6 @@
             }
         }
 
-        // ปรับแต่งเลเยอร์ขอบเขต GeoJSON ให้สอดคล้องกับ water_levels.html ทั้งหมด
         function initMapFramework() {
             map = L.map('map').setView([18.7813, 100.7730], 9);
             L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -356,7 +374,7 @@
                 stationsData = stnRes;
                 timeControlTimeline = timelineRes;
                 stationTelemetryDB = telemetryRes;
-                
+
                 generateAgencyDropdownFilters();
                 switchTimeScale('daily'); 
             } catch (err) {
@@ -367,7 +385,7 @@
         function buildTimeDropdownControl() {
             const selectEl = document.getElementById('date-select-dropdown');
             const steps = currentTimeScale === 'hourly' ? timeControlTimeline.hourly_steps : timeControlTimeline.daily_steps;
-            
+
             if (!steps || steps.length === 0) return;
 
             selectEl.innerHTML = steps.map((t, idx) => `<option value="${idx}">${t}</option>`).join('');
@@ -379,7 +397,7 @@
             const selectEl = document.getElementById('agency-filter');
             const agencies = [...new Set(stationsData.map(item => item.Agency || item.agency))].filter(Boolean).sort();
             selectEl.innerHTML = '';
-            
+
             const defaultOpt = document.createElement('option');
             defaultOpt.value = "ALL";
             defaultOpt.innerText = currentLang === 'en' ? "All Agencies (Show All)" : "ทุกหน่วยงาน (แสดงทั้งหมด)";
@@ -401,7 +419,7 @@
                 const code = stn["Station Code"] || stn.station_code || "";
                 const record = stationTelemetryDB[String(code)];
                 let currentRain = 0;
-                
+
                 if (record) {
                     if (currentTimeScale === 'event') {
                         currentRain = record.event_total || 0;
@@ -451,7 +469,7 @@
                 const marker = L.circleMarker([lat, lon], {
                     radius: 7.5, fillColor: thresholdColor, color: '#ffffff', weight: 1.8, opacity: 1, fillOpacity: 0.85
                 });
-                
+
                 const stnCode = stn["Station Code"] || stn.station_code || "";
                 const stnName = stn["Station Name"] || stn.station_name || "";
                 const stnAgency = stn.Agency || stn.agency || "";
@@ -488,7 +506,7 @@
                         </button>
                     </div>
                 `;
-                
+
                 card.onclick = () => {
                     map.setView([lat, lon], 12);
                     marker.openPopup();
@@ -502,7 +520,7 @@
 
         window.switchTimeScale = function(scaleKey) {
             currentTimeScale = scaleKey;
-            
+
             const btnHourly = document.getElementById('btn-scale-hourly');
             const btnDaily = document.getElementById('btn-scale-daily');
             const btnEvent = document.getElementById('btn-scale-event');
@@ -603,7 +621,7 @@
         function toggleLanguage() {
             currentLang = currentLang === 'th' ? 'en' : 'th';
             document.getElementById('langText').innerText = currentLang === 'th' ? 'TH / ภาษาไทย' : 'EN / English';
-            
+
             document.querySelectorAll('.data-lang').forEach(el => {
                 const text = el.getAttribute(`data-${currentLang}`);
                 if (text) el.innerText = text;
