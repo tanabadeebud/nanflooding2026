@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nan Flood 2026 - สรุปรายงานเหตุการณ์น้ำท่วม จ.น่าน</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        #map { z-index: 1; }
+        .synoptic-slide { display: none; }
+        .synoptic-slide.active { display: block; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col md:flex-row select-none">
+
+    <!-- Sidebar Navigation -->
+    <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 shadow-sm z-30">
+        <div>
+            <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-4">
+                <img src="data/Radar4flood_Icon_PNG.png" alt="Radar4Flood Logo" class="w-10 h-10 object-contain shrink-0" onerror="this.src='Radar4flood_Icon_PNG.png'">
+                <div>
+                    <h1 class="text-base font-bold tracking-tight text-slate-900 data-lang" data-en="Nan Flood Situation 2026" data-th="สถานการณ์น้ำท่วม จ.น่าน พ.ศ. 2569">สถานการณ์น้ำท่วม จ.น่าน พ.ศ. 2569</h1>
+                    <p class="text-xs text-slate-500 font-medium data-lang" data-en="18 Aug 2026 - Present" data-th="18 ส.ค. 2569 - ปัจจุบัน">18 ส.ค. 2569 - ปัจจุบัน</p>
+                </div>
+            </div>
+
+            <div class="px-2 mb-4">
+                <button id="langToggle" class="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 px-3 rounded-lg border border-slate-200 transition-all">
+                    <i data-lucide="languages" class="w-4 h-4"></i>
+                    <span id="langText">TH / ภาษาไทย</span>
+                </button>
+            </div>
+
+            <nav class="space-y-1 text-xs">
+                <!-- 1. สรุปภาพรวม (Active Page) -->
+                <a href="index.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-blue-50 text-blue-700 font-bold shadow-sm transition-all">
+                    <i data-lucide="file-text" class="w-4 h-4 text-blue-600 shrink-0"></i>
+                    <span class="data-lang" data-en="1. Overview Report" data-th="1. สรุปภาพรวมเหตุการณ์">1. สรุปภาพรวมเหตุการณ์</span>
+                </a>
+                
+                <!-- 2. สถานีวัดน้ำฝน -->
+                <a href="gauge_stations.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all font-medium">
+                    <i data-lucide="cloud-rain" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                    <span class="data-lang" data-en="2. Rainfall Stations" data-th="2. สถานีวัดน้ำฝน">2. สถานีวัดน้ำฝน</span>
+                </a>
+
+                <!-- 3. สถานีวัดระดับน้ำ -->
+                <a href="water_levels.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all font-medium">
+                    <i data-lucide="waves" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                    <span class="data-lang" data-en="3. Water Level Stations" data-th="3. สถานีวัดระดับน้ำ">3. สถานีวัดระดับน้ำ</span>
+                </a>
+
+                <!-- 4. สถานการณ์อัตราการไหล -->
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
+                    <i data-lucide="activity" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-semibold data-lang" data-en="4. Discharge Situation (Maintenance)" data-th="4. สถานการณ์อัตราการไหล (กำลังปรับปรุง)">4. สถานการณ์อัตราการไหล (กำลังปรับปรุง)</span>
+                </div>
+
+                <!-- 5. ภาพเคลื่อนไหวฝนเรดาร์ -->
+                <a href="radar_animation.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all font-medium">
+                    <i data-lucide="play-circle" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                    <span class="data-lang" data-en="5. Radar Animation" data-th="5. ภาพเคลื่อนไหวฝนเรดาร์">5. ภาพเคลื่อนไหวฝนเรดาร์</span>
+                </a>
+
+                <!-- 6. ปริมาณฝนเรดาร์เชิงพื้นที่ -->
+                <a href="district_rainfall.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all font-medium">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                    <span class="data-lang" data-en="6. Spatial Radar Rainfall" data-th="6. ปริมาณฝนเรดาร์เชิงพื้นที่">6. ปริมาณฝนเรดาร์เชิงพื้นที่</span>
+                </a>
+
+                <!-- 7. แผนที่น้ำท่วม -->
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
+                    <i data-lucide="map" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-semibold data-lang" data-en="7. Flood Mapping (Maintenance)" data-th="7. แผนที่น้ำท่วม (กำลังปรับปรุง)">7. แผนที่น้ำท่วม (กำลังปรับปรุง)</span>
+                </div>
+            </nav>
+        </div>
+        <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-400 font-medium hidden md:block">
+            <p>Nan Monitoring Project v2.0</p>
+        </div>
+    </aside>
+
+    <!-- Main Content Panel -->
+    <main class="flex-1 min-w-0 p-6 md:p-8 space-y-8 overflow-y-auto">
+        <!-- Header -->
+        <header class="pb-4 border-b border-slate-200">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900 data-lang" data-en="Nan Flood Situation Summary Report" data-th="สรุปรายงานเหตุการณ์น้ำท่วม จังหวัดน่าน">สรุปรายงานเหตุการณ์น้ำท่วม จังหวัดน่าน</h2>
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800 font-mono self-start sm:self-auto">
+                    <i data-lucide="calendar" class="w-3.5 h-3.5"></i> ช่วงเวลา: 18 - 20 สิงหาคม 2569
+                </span>
+            </div>
+            <p class="text-sm text-slate-500 mt-1 data-lang" data-en="Comprehensive overview of weather patterns, rainfall extremes, river stages, and spatial radar accumulations during the 18-20 Aug 2026 event." data-th="สรุปภาพรวมสภาพอากาศ ปริมาณฝนสูงสุดจากสถานีวัด ระดับน้ำในแม่น้ำสายหลัก และการสะสมเชิงพื้นที่ของฝนเรดาร์ตลอดช่วงเหตุการณ์">สรุปภาพรวมสภาพอากาศ ปริมาณฝนสูงสุดจากสถานีวัด ระดับน้ำในแม่น้ำสายหลัก และการสะสมเชิงพื้นที่ของฝนเรดาร์ตลอดช่วงเหตุการณ์</p>
+        </header>
+
+<!-- 1. แผนที่อากาศย้อนหลัง (ปรับปรุงช่วงเวลาเริ่ม 18 ส.ค. 07:00 - 20 ส.ค. 19:00 น. รวม 11 ภาพ) -->
+        <section class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-2">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="cloud-sun" class="w-5 h-5 text-blue-600"></i>
+                        1. แผนที่อากาศย้อนหลัง
+                    </h3>
+                    <p class="text-xs text-slate-500 font-medium mt-0.5">แผนที่อากาศผิวพื้น จากกรมอุตุนิยมวิทยา (แสดงรูปทุกๆ 6 ชั่วโมง)</p>
+                </div>
+                <!-- Controls -->
+                <div class="flex items-center gap-2">
+                    <button onclick="changeSynopticSlide(-1)" class="p-2 bg-slate-100 hover:bg-slate-200 rounded-lg transition text-slate-700">
+                        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                    </button>
+                    <span id="synoptic-time-label" class="text-xs font-bold font-mono bg-slate-100 px-3 py-2 rounded-lg text-slate-800 min-w-[160px] text-center border border-slate-200 shadow-sm">
+                        18 ส.ค. 2569 07:00 น.
+                    </span>
+                    <button onclick="changeSynopticSlide(1)" class="p-2 bg-slate-100 hover:bg-slate-200 rounded-lg transition text-slate-700">
+                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="toggleSynopticPlay()" id="btn-synoptic-play" class="flex items-center gap-1.5 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg transition shadow-sm ml-2">
+                        <i data-lucide="play" class="w-3.5 h-3.5"></i> เล่นอัตโนมัติ
+                    </button>
+                </div>
+            </div>
+
+            <!-- Image Slider Container (11 รูป JPG สอดคล้องกับไฟล์จริง) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <div class="lg:col-span-7 bg-slate-900 rounded-xl overflow-hidden border border-slate-200 p-3 min-h-[380px] max-h-[420px] flex items-center justify-center relative shadow-inner">
+                    <div class="synoptic-slide active w-full h-full text-center">
+                        <img src="data/synoptic/20260818_07.jpg" alt="18 ส.ค. 07:00" class="max-h-[380px] mx-auto object-contain rounded">
+                    </div>
+                    <div class="synoptic-slide w-full h-full text-center">
+                        <img src="data/synoptic/20260818_13.jpg" alt="18 ส.ค. 13:00" class="max-h-[380px] mx-auto object-contain rounded">
+                    </div>
+                    <div class="synoptic-slide w-full h-full text-center">
+                        <img src="data/synoptic/20260818_19.jpg" alt="18 ส.ค. 19:00" class="max-h-[380px] mx-auto object-contain rounded">
+                    </div>
+                    <div class="synoptic-slide w-full h-full text-center">
+                        <img src="data/synoptic/20260819_01.jpg" alt="19 ส.ค. 01:00" class="max-h-[380px] mx-auto object-contain rounded">
+                    </div>
+                    <div class="synoptic-slide w-full h-full text-center">
+                        <img src="data/synoptic/20260819_07.jpg" alt="19 ส.ค. 07:00" class="max-h-[380px] mx-auto object-contain rounded">
+                    </div>
+                    <div class="synoptic-slide w-full h-full text-center">
+                        <img src="data/synoptic/20260819_13.jpg" alt="19 ส.ค. 13:00" class="max-h-[380px] mx-auto object-contain rounded">
+                    </div>
+                    <div class="synoptic-slide w-full h-full text-center">
+                        <img src="data/synoptic/20260819_19.jpg" alt="19 ส.ค. 19:00" class="max-h-[380px] mx-auto object-contain rounded">
+                    </div>
+                    <div class="synoptic-slide w-full h-full text-center">
+                        <img src="data/synoptic/20260820_01.jpg" alt="20 ส.ค. 01:00" class="max-h-[380px] mx-auto object-contain rounded">
+                    </div>
+                    <div class="synoptic-slide w-full h-full text-center">
+                        <img src="data/synoptic/20260820_07.jpg" alt="20 ส.ค. 07:00" class="max-h-[380px] mx-auto object-contain rounded">
+                    </div>
+                    <div class="synoptic-slide w-full h-full text-center">
+                        <img src="data/synoptic/20260820_13.jpg" alt="20 ส.ค. 13:00" class="max-h-[380px] mx-auto object-contain rounded">
+                    </div>
+                    <div class="synoptic-slide w-full h-full text-center">
+                        <img src="data/synoptic/20260820_19.jpg" alt="20 ส.ค. 19:00" class="max-h-[380px] mx-auto object-contain rounded">
+                    </div>
+                </div>
+
+                <!-- Description Box -->
+                <div class="lg:col-span-5 bg-slate-50 p-5 rounded-xl border border-slate-200 text-sm leading-relaxed text-slate-600 space-y-3">
+                    <h4 class="font-bold text-slate-800 flex items-center gap-1.5 border-b border-slate-200 pb-2">
+                        <i data-lucide="info" class="w-4 h-4 text-blue-600"></i> คำอธิบายสภาวะอากาศย้อนหลัง
+                    </h4>
+                    <p class="italic text-slate-400">
+                        [ เว้นพื้นที่สำหรับใส่คำอธิบายสภาวะอากาศ ร่องมรสุม และการเคลื่อนตัวของหยดความกดอากาศต่ำ ตลอดช่วงเหตุการณ์วันที่ 18 - 20 สิงหาคม 2569 ]
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ปริมาณฝนสถานีสูงสุด 5 สถานี -->
+        <section class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <div class="border-b border-slate-100 pb-3">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="cloud-rain" class="w-5 h-5 text-blue-600"></i>
+                    2. ปริมาณฝนสถานีสูงสุด 5 สถานี (ข้อมูลสถานีโทรมาตรจริง)
+                </h3>
+                <p class="text-xs text-slate-500 font-medium mt-0.5">สถานีวัดน้ำฝนที่ตรวจวัดปริมาณฝนสะสมรวมและฝนชั่วคราวสูงสุดในช่วงเหตุการณ์ 18-20 ส.ค. 2569</p>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                            <th class="px-4 py-3 text-center w-12">อันดับ</th>
+                            <th class="px-4 py-3">ชื่อสถานี</th>
+                            <th class="px-4 py-3">ตำบล</th>
+                            <th class="px-4 py-3">อำเภอ</th>
+                            <th class="px-4 py-3 text-right">ฝนสะสม (มม.)</th>
+                            <th class="px-4 py-3 text-right">ฝน ชม. สูงสุด (มม.)</th>
+                            <th class="px-4 py-3 text-center">เวลาฝนสูงสุด</th>
+                            <th class="px-4 py-3 text-center">หน่วยงาน</th>
+                        </tr>
+                    </thead>
+                    <tbody id="top5-gauge-table-body" class="divide-y divide-slate-100 text-sm font-medium text-slate-700">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 3. ระดับน้ำสูงสุด สถานีที่สำคัญ -->
+        <section class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <div class="border-b border-slate-100 pb-3">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="waves" class="w-5 h-5 text-blue-600"></i>
+                    3. ระดับน้ำสูงสุด สถานีที่สำคัญ
+                </h3>
+                <p class="text-xs text-slate-500 font-medium mt-0.5">ข้อมูลระดับน้ำสูงสุดเปรียบเทียบกับระดับตลิ่งในลำน้ำสายหลัก (แม่น้ำน่าน)</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- N.64 -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 shadow-sm">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                        <div>
+                            <span class="text-xs font-mono font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded">N.64</span>
+                            <h4 class="font-bold text-slate-900 text-sm mt-1">บ้านผาตลิ่ง</h4>
+                        </div>
+                        <span class="text-[10px] font-bold bg-slate-200 text-slate-700 px-2 py-0.5 rounded uppercase">RID</span>
+                    </div>
+                    <div class="text-xs space-y-1.5 text-slate-600 font-medium">
+                        <p>• ลำน้ำ: <span class="text-slate-800 font-bold">แม่น้ำน่าน</span></p>
+                        <p>• อำเภอ: <span class="text-slate-800 font-bold">ท่าวังผา</span></p>
+                        <p>• ระดับตลิ่ง: <span class="text-slate-800 font-mono">9.50 ม. (รทก.)</span></p>
+                        <p>• ระดับน้ำสูงสุด: <span class="text-red-600 font-bold font-mono">10.85 ม.</span></p>
+                        <p>• เวลาที่สูงที่สุด: <span class="text-blue-700 font-bold font-mono">19 ส.ค. 08:00 น.</span></p>
+                    </div>
+                    <div class="pt-2 border-t border-slate-200 flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-500">สถานะล้นตลิ่ง:</span>
+                        <span class="px-2.5 py-1 bg-red-100 text-red-800 text-xs font-bold rounded-full flex items-center gap-1">
+                            <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> ล้นตลิ่ง +1.35 ม.
+                        </span>
+                    </div>
+                </div>
+
+                <!-- N.1 -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 shadow-sm">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                        <div>
+                            <span class="text-xs font-mono font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded">N.1</span>
+                            <h4 class="font-bold text-slate-900 text-sm mt-1">สะพานพัฒนาภาคเหนือ</h4>
+                        </div>
+                        <span class="text-[10px] font-bold bg-slate-200 text-slate-700 px-2 py-0.5 rounded uppercase">RID</span>
+                    </div>
+                    <div class="text-xs space-y-1.5 text-slate-600 font-medium">
+                        <p>• ลำน้ำ: <span class="text-slate-800 font-bold">แม่น้ำน่าน</span></p>
+                        <p>• อำเภอ: <span class="text-slate-800 font-bold">เมืองน่าน</span></p>
+                        <p>• ระดับตลิ่ง: <span class="text-slate-800 font-mono">7.00 ม. (รทก.)</span></p>
+                        <p>• ระดับน้ำสูงสุด: <span class="text-red-600 font-bold font-mono">8.42 ม.</span></p>
+                        <p>• เวลาที่สูงที่สุด: <span class="text-blue-700 font-bold font-mono">19 ส.ค. 15:00 น.</span></p>
+                    </div>
+                    <div class="pt-2 border-t border-slate-200 flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-500">สถานะล้นตลิ่ง:</span>
+                        <span class="px-2.5 py-1 bg-red-100 text-red-800 text-xs font-bold rounded-full flex items-center gap-1">
+                            <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> ล้นตลิ่ง +1.42 ม.
+                        </span>
+                    </div>
+                </div>
+
+                <!-- N.13A -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 shadow-sm">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                        <div>
+                            <span class="text-xs font-mono font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded">N.13A</span>
+                            <h4 class="font-bold text-slate-900 text-sm mt-1">บ้านบุญนาค</h4>
+                        </div>
+                        <span class="text-[10px] font-bold bg-slate-200 text-slate-700 px-2 py-0.5 rounded uppercase">RID</span>
+                    </div>
+                    <div class="text-xs space-y-1.5 text-slate-600 font-medium">
+                        <p>• ลำน้ำ: <span class="text-slate-800 font-bold">แม่น้ำน่าน</span></p>
+                        <p>• อำเภอ: <span class="text-slate-800 font-bold">เวียงสา</span></p>
+                        <p>• ระดับตลิ่ง: <span class="text-slate-800 font-mono">6.50 ม. (รทก.)</span></p>
+                        <p>• ระดับน้ำสูงสุด: <span class="text-red-600 font-bold font-mono">8.10 ม.</span></p>
+                        <p>• เวลาที่สูงที่สุด: <span class="text-blue-700 font-bold font-mono">19 ส.ค. 21:00 น.</span></p>
+                    </div>
+                    <div class="pt-2 border-t border-slate-200 flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-500">สถานะล้นตลิ่ง:</span>
+                        <span class="px-2.5 py-1 bg-red-100 text-red-800 text-xs font-bold rounded-full flex items-center gap-1">
+                            <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> ล้นตลิ่ง +1.60 ม.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. ปริมาณฝนเรดาร์สะสมทั้งเหตุการณ์ (ปรับธีมเป็น Slate/White) -->
+        <section class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
+            <div class="border-b border-slate-100 pb-3">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="map-pin" class="w-5 h-5 text-blue-600"></i>
+                    4. ปริมาณฝนเรดาร์สะสมทั้งเหตุการณ์ (รายอำเภอ)
+                </h3>
+                <p class="text-xs text-slate-500 font-medium mt-0.5">แผนที่กระจายตัวเชิงพื้นที่และสรุปตารางปริมาณฝนเรดาร์สะสมรวมรายอำเภอ ตลอดช่วงเหตุการณ์</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <!-- แผนที่ด้านซ้าย -->
+                <div class="lg:col-span-5 bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col items-center">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 self-start">แผนที่ฝนเรดาร์สะสมรายอำเภอ</h4>
+                    <div id="map-event-accumulation" class="w-full h-[380px] rounded-lg bg-slate-100 border border-slate-200"></div>
+                    <!-- Legend -->
+                    <div class="flex flex-wrap items-center justify-center gap-2 mt-4 text-[11px] font-medium text-slate-600">
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded block bg-emerald-500"></span> 0.2-10</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded block bg-amber-500"></span> 10-35</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded block bg-red-500"></span> 35-90</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded block bg-purple-600"></span> > 90 มม.</span>
+                    </div>
+                </div>
+
+                <!-- ตารางสะสมรายวัน x อำเภอ ด้านขวา -->
+                <div class="lg:col-span-7 bg-white rounded-xl border border-slate-200 overflow-hidden flex flex-col">
+                    <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                        ตารางสรุปฝนเรดาร์สะสมตลอดทั้งเหตุการณ์ (รายอำเภอ)
+                    </div>
+                    <div class="overflow-y-auto max-h-[380px]">
+                        <table class="w-full text-left border-collapse text-xs font-medium text-slate-700">
+                            <thead class="bg-slate-50 border-b border-slate-200 sticky top-0 text-slate-400 font-bold uppercase">
+                                <tr>
+                                    <th class="py-2.5 px-4">อำเภอ</th>
+                                    <th class="py-2.5 px-3 text-center">18 ส.ค.</th>
+                                    <th class="py-2.5 px-3 text-center">19 ส.ค.</th>
+                                    <th class="py-2.5 px-3 text-center">20 ส.ค.</th>
+                                    <th class="py-2.5 px-4 text-right">สะสมรวม (มม.)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="district-event-table-body" class="divide-y divide-slate-100 font-mono">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. ฝนเรดาร์สะสมรายพื้นที่สูงสุด 5 ลำดับแรก -->
+        <section class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-3">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="bar-chart-2" class="w-5 h-5 text-blue-600"></i>
+                        5. ฝนเรดาร์สะสมสูงสุดรายพื้นที่ 5 อันดับแรก
+                    </h3>
+                    <p class="text-xs text-slate-500 font-medium mt-0.5">จัดอันดับพื้นที่ที่มีปริมาณฝนสะสมสูงสุด สลับดูข้อมูลได้ตามระดับตำบล อำเภอ และลุ่มน้ำย่อย</p>
+                </div>
+                <!-- Spatial Switcher -->
+                <div class="inline-flex p-1 bg-slate-100 rounded-lg border border-slate-200 self-start sm:self-center">
+                    <button onclick="switchIndexSpatialTab('sub_district')" id="tab-subdistrict" class="px-3.5 py-1.5 text-xs font-bold rounded-md bg-white text-slate-900 shadow-sm transition">ระดับตำบล</button>
+                    <button onclick="switchIndexSpatialTab('district')" id="tab-district" class="px-3.5 py-1.5 text-xs font-semibold rounded-md text-slate-500 hover:text-slate-900 transition">ระดับอำเภอ</button>
+                    <button onclick="switchIndexSpatialTab('sub_basin')" id="tab-subbasin" class="px-3.5 py-1.5 text-xs font-semibold rounded-md text-slate-500 hover:text-slate-900 transition">ลุ่มน้ำย่อย</button>
+                </div>
+            </div>
+
+            <!-- Table Top 5 Ranking -->
+            <div class="bg-white rounded-xl border border-slate-200 overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs font-medium text-slate-700">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200 text-slate-400 uppercase font-bold tracking-wider">
+                            <th class="py-3 px-3 text-center w-10">อันดับ</th>
+                            <th id="spatial-col-title" class="py-3 px-4">ตำบล (อำเภอ)</th>
+                            <th class="py-3 px-4">ฝนสะสมทั้งเหตุการณ์ (มม.)</th>
+                            <th class="py-3 px-3 text-center">24 ชม. สูงสุด (มม.)</th>
+                            <th class="py-3 px-3 text-center">สูงสุด (มม./ชม.)</th>
+                            <th class="py-3 px-3 text-center">เวลาฝนหนักสุด</th>
+                        </tr>
+                    </thead>
+                    <tbody id="top5-spatial-table-body" class="divide-y divide-slate-100 font-mono">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 1. Synoptic Image Slider Logic
+        let currentSynopticIdx = 0;
+        let synopticInterval = null;
+        const synopticTimes = [
+            "18 ส.ค. 2569 01:00 น.", "18 ส.ค. 2569 07:00 น.", "18 ส.ค. 2569 13:00 น.", "18 ส.ค. 2569 19:00 น.",
+            "19 ส.ค. 2569 01:00 น.", "19 ส.ค. 2569 07:00 น.", "19 ส.ค. 2569 13:00 น.", "19 ส.ค. 2569 19:00 น.",
+            "20 ส.ค. 2569 01:00 น.", "20 ส.ค. 2569 07:00 น.", "20 ส.ค. 2569 13:00 น.", "20 ส.ค. 2569 19:00 น."
+        ];
+
+        function changeSynopticSlide(direction) {
+            const slides = document.querySelectorAll('.synoptic-slide');
+            slides[currentSynopticIdx].classList.remove('active');
+            
+            currentSynopticIdx = (currentSynopticIdx + direction + slides.length) % slides.length;
+            
+            slides[currentSynopticIdx].classList.add('active');
+            document.getElementById('synoptic-time-label').innerText = synopticTimes[currentSynopticIdx];
+        }
+
+        function toggleSynopticPlay() {
+            const btn = document.getElementById('btn-synoptic-play');
+            if (synopticInterval) {
+                clearInterval(synopticInterval);
+                synopticInterval = null;
+                btn.innerHTML = `<i data-lucide="play" class="w-3.5 h-3.5"></i> เล่นอัตโนมัติ`;
+            } else {
+                synopticInterval = setInterval(() => changeSynopticSlide(1), 1500);
+                btn.innerHTML = `<i data-lucide="pause" class="w-3.5 h-3.5"></i> หยุดชั่วคราว`;
+            }
+            lucide.createIcons();
+        }
+
+        // 2. Load Gauge Top 5 Real Data
+        async function loadTop5GaugeStations() {
+            try {
+                const [stnRes, telemetryRes] = await Promise.all([
+                    fetch('data/stations_list.json?t=' + Date.now()).then(r => r.json()),
+                    fetch('data/station_rainfall_matrix.json?t=' + Date.now()).then(r => r.json())
+                ]);
+
+                const evaluated = stnRes.map(stn => {
+                    const code = String(stn["Station Code"] || stn.station_code || "");
+                    const rec = telemetryRes[code] || {};
+                    const hourlyVals = rec.hourly_values || [];
+                    const timestamps = rec.hourly_timestamps || [];
+                    
+                    let maxH = 0;
+                    let maxTime = "-";
+                    hourlyVals.forEach((v, idx) => {
+                        if (v > maxH) {
+                            maxH = v;
+                            maxTime = timestamps[idx] || "-";
+                        }
+                    });
+
+                    return {
+                        name: stn["Station Name"] || stn.station_name || "-",
+                        subdistrict: stn.subdistrict || stn.Tambon || "-",
+                        district: stn.district || stn.Amphoe || "-",
+                        agency: stn.Agency || stn.agency || "-",
+                        total: rec.event_total || 0,
+                        maxH: maxH,
+                        maxTime: maxTime
+                    };
+                });
+
+                evaluated.sort((a, b) => b.total - a.total);
+                const top5 = evaluated.slice(0, 5);
+
+                const tbody = document.getElementById('top5-gauge-table-body');
+                tbody.innerHTML = "";
+
+                top5.forEach((item, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-slate-50 transition-colors";
+                    tr.innerHTML = `
+                        <td class="px-4 py-3 text-center font-mono font-bold text-blue-600">${idx + 1}</td>
+                        <td class="px-4 py-3 font-bold text-slate-900">${item.name}</td>
+                        <td class="px-4 py-3">${item.subdistrict}</td>
+                        <td class="px-4 py-3">${item.district}</td>
+                        <td class="px-4 py-3 text-right font-bold text-purple-700 font-mono">${item.total.toFixed(1)}</td>
+                        <td class="px-4 py-3 text-right font-bold text-red-600 font-mono">${item.maxH.toFixed(1)}</td>
+                        <td class="px-4 py-3 text-center font-mono text-slate-600">${item.maxTime}</td>
+                        <td class="px-4 py-3 text-center"><span class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-xs font-bold">${item.agency}</span></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                console.warn("Error loading top 5 gauge data:", err);
+            }
+        }
+
+        // 4. Map Event Accumulation & Table Init (Real JSON)
+        let eventGeoJsonLayer = null;
+        async function initEventMapAndTable() {
+            const map = L.map('map-event-accumulation', { zoomControl: false }).setView([18.7813, 100.7730], 8);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+
+            try {
+                const [geoRes, zonalRes] = await Promise.all([
+                    fetch('data/nan_district_boundary.geojson').then(r => r.json()),
+                    fetch('data/radar_telemetry_zonal.json?t=' + Date.now()).then(r => r.json())
+                ]);
+
+                const districtsZonal = zonalRes.district || [];
+                const tbody = document.getElementById('district-event-table-body');
+                tbody.innerHTML = "";
+
+                districtsZonal.sort((a, b) => (b.event || 0) - (a.event || 0));
+
+                districtsZonal.forEach(d => {
+                    const daily = d.daily || [0, 0, 0];
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-slate-50 transition-colors";
+                    tr.innerHTML = `
+                        <td class="py-2.5 px-4 font-sans font-bold text-slate-800">${d.name_th}</td>
+                        <td class="py-2.5 px-3 text-center">${(daily[0] || 0).toFixed(1)}</td>
+                        <td class="py-2.5 px-3 text-center text-amber-600 font-bold">${(daily[1] || 0).toFixed(1)}</td>
+                        <td class="py-2.5 px-3 text-center">${(daily[2] || 0).toFixed(1)}</td>
+                        <td class="py-2.5 px-4 text-right font-black text-blue-700 text-sm">${(d.event || 0).toFixed(1)}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                L.geoJSON(geoRes, {
+                    style: function(feature) {
+                        const pCode = String(feature.properties.adm2_pcode || feature.properties.AMP_CODE || '');
+                        const zRow = districtsZonal.find(x => String(x.code) === pCode);
+                        const val = zRow ? (zRow.event || 0) : 0;
+                        
+                        let color = "#10b981";
+                        if (val > 90) color = "#9333ea";
+                        else if (val > 35) color = "#ef4444";
+                        else if (val > 10) color = "#f59e0b";
+
+                        return { color: '#ffffff', weight: 1.5, fillColor: color, fillOpacity: 0.7 };
+                    }
+                }).addTo(map);
+
+            } catch (err) {
+                console.warn("Event map load error:", err);
+            }
+        }
+
+        // 5. Spatial Top 5 Ranking Data Switcher (With District Names & Unified Format)
+        let zonalFullTelemetry = {};
+
+        async function loadZonalTelemetryDB() {
+            try {
+                zonalFullTelemetry = await fetch('data/radar_telemetry_zonal.json?t=' + Date.now()).then(r => r.json());
+                switchIndexSpatialTab('sub_district');
+            } catch (err) {
+                console.warn("Zonal telemetry load error:", err);
+            }
+        }
+
+        function switchIndexSpatialTab(typeKey) {
+            ['subdistrict', 'district', 'subbasin'].forEach(t => {
+                document.getElementById(`tab-${t}`).className = "px-3.5 py-1.5 text-xs font-semibold rounded-md text-slate-500 hover:text-slate-900 transition";
+            });
+
+            if (typeKey === 'sub_district') {
+                document.getElementById('tab-subdistrict').className = "px-3.5 py-1.5 text-xs font-bold rounded-md bg-white text-slate-900 shadow-sm transition";
+                document.getElementById('spatial-col-title').innerText = "ตำบล (อำเภอ)";
+            } else if (typeKey === 'district') {
+                document.getElementById('tab-district').className = "px-3.5 py-1.5 text-xs font-bold rounded-md bg-white text-slate-900 shadow-sm transition";
+                document.getElementById('spatial-col-title').innerText = "อำเภอ";
+            } else {
+                document.getElementById('tab-subbasin').className = "px-3.5 py-1.5 text-xs font-bold rounded-md bg-white text-slate-900 shadow-sm transition";
+                document.getElementById('spatial-col-title').innerText = "ลุ่มน้ำย่อย";
+            }
+
+            const rawList = zonalFullTelemetry[typeKey] || [];
+            const list = [...rawList].sort((a, b) => (b.event || 0) - (a.event || 0)).slice(0, 5);
+            
+            const tbody = document.getElementById('top5-spatial-table-body');
+            tbody.innerHTML = "";
+
+            list.forEach((item, idx) => {
+                let displayName = item.name_th || "-";
+                if (typeKey === 'sub_district') {
+                    const distName = item.district_th || item.district || "";
+                    if (distName && distName !== "-") {
+                        displayName = `${item.name_th} (${distName})`;
+                    }
+                }
+
+                // Calculate Max 24h & Max Hourly
+                const hourly = item.hourly || [];
+                let maxH = 0;
+                let maxHIndex = -1;
+                hourly.forEach((v, i) => {
+                    if (v > maxH) {
+                        maxH = v;
+                        maxHIndex = i;
+                    }
+                });
+
+                const max24h = (item.daily) ? Math.max(...item.daily) : 0;
+                const maxTimeStr = maxHIndex >= 0 ? `19 ส.ค. ${(maxHIndex % 24).toString().padStart(2, '0')}:00 น.` : "-";
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition-colors";
+                tr.innerHTML = `
+                    <td class="py-3 px-3 text-center font-mono font-bold text-slate-400">${idx + 1}</td>
+                    <td class="py-3 px-4 font-bold text-slate-900 font-sans">${displayName}</td>
+                    <td class="py-3 px-4 font-bold text-purple-700 text-sm font-mono">${(item.event || 0).toFixed(1)}</td>
+                    <td class="py-3 px-3 text-center font-mono">${max24h.toFixed(1)}</td>
+                    <td class="py-3 px-3 text-center font-mono text-red-600 font-bold">${maxH.toFixed(1)}</td>
+                    <td class="py-3 px-3 text-center font-mono text-slate-600">${maxTimeStr}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initEventMapAndTable();
+            loadTop5GaugeStations();
+            loadZonalTelemetryDB();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
