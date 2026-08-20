@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nan Flood 2026 - Animation Radar Rainfall</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        #map-hourly, #map-accumulated { z-index: 1; }
+        input[type="range"]::-webkit-slider-runnable-track { background: transparent; }
+        input[type="range"]::-moz-range-track { background: transparent; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen md:h-screen md:max-h-screen md:overflow-hidden flex flex-col md:flex-row select-none">
+
+    <!-- Sidebar Navigation -->
+    <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 shadow-sm z-30">
+        <div>
+            <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-4">
+                <img src="data/Radar4flood_Icon_PNG.png" alt="Radar4Flood Logo" class="w-10 h-10 object-contain shrink-0" onerror="this.src='Radar4flood_Icon_PNG.png'">
+                <div>
+                    <h1 class="text-base font-bold tracking-tight text-slate-900 data-lang" data-en="Nan Flood Situation 2026" data-th="สถานการณ์น้ำท่วม จ.น่าน พ.ศ. 2569">สถานการณ์น้ำท่วม จ.น่าน พ.ศ. 2569</h1>
+                    <p class="text-xs text-slate-500 font-medium data-lang" data-en="18 Aug 2026 - Present" data-th="18 ส.ค. 2569 - ปัจจุบัน">18 ส.ค. 2569 - ปัจจุบัน</p>
+                </div>
+            </div>
+
+            <div class="px-2 mb-4">
+                <button id="langToggle" class="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 px-3 rounded-lg border border-slate-200 transition-all">
+                    <i data-lucide="languages" class="w-4 h-4"></i>
+                    <span id="langText">TH / ภาษาไทย</span>
+                </button>
+            </div>
+
+            <nav class="space-y-1 text-xs">
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
+                    <i data-lucide="file-text" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-semibold data-lang" data-en="1. Overview (Maintenance)" data-th="1. สรุปภาพรวม (กำลังปรับปรุง)">1. สรุปภาพรวม (กำลังปรับปรุง)</span>
+                </div>
+                
+                <a href="gauge_stations.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all font-medium">
+                    <i data-lucide="cloud-rain" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                    <span class="data-lang" data-en="2. Rainfall Stations" data-th="2. สถานีวัดน้ำฝน">2. สถานีวัดน้ำฝน</span>
+                </a>
+
+                <a href="water_levels.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all font-medium">
+                    <i data-lucide="waves" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                    <span class="data-lang" data-en="3. Water Level Stations" data-th="3. สถานีวัดระดับน้ำ">3. สถานีวัดระดับน้ำ</span>
+                </a>
+
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
+                    <i data-lucide="activity" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-semibold data-lang" data-en="4. Discharge Situation (Maintenance)" data-th="4. สถานการณ์อัตราการไหล (กำลังปรับปรุง)">4. สถานการณ์อัตราการไหล (กำลังปรับปรุง)</span>
+                </div>
+
+                <a href="radar_animation.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-blue-50 text-blue-700 font-bold shadow-sm transition-all">
+                    <i data-lucide="play-circle" class="w-4 h-4 text-blue-600 shrink-0"></i>
+                    <span class="data-lang" data-en="5. Radar Animation" data-th="5. ภาพเคลื่อนไหวฝนเรดาร์">5. ภาพเคลื่อนไหวฝนเรดาร์</span>
+                </a>
+
+                <!-- 6. ปริมาณฝนเรดาร์เชิงพื้นที่ (Active Link) -->
+                <a href="district_rainfall.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all font-medium">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                    <span class="data-lang" data-en="6. Spatial Radar Rainfall" data-th="6. ปริมาณฝนเรดาร์เชิงพื้นที่">6. ปริมาณฝนเรดาร์เชิงพื้นที่</span>
+                </a>
+
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
+                    <i data-lucide="map" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-semibold data-lang" data-en="7. Flood Mapping (Maintenance)" data-th="7. แผนที่น้ำท่วม (กำลังปรับปรุง)">7. แผนที่น้ำท่วม (กำลังปรับปรุง)</span>
+                </div>
+            </nav>
+        </div>
+        <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-400 font-medium hidden md:block">
+            <p>Nan Monitoring Project v2.0</p>
+        </div>
+    </aside>
+
+    <!-- Main Content Panel -->
+    <main class="flex-1 flex flex-col min-w-0 p-4 md:p-6 space-y-4 h-full md:max-h-full md:overflow-hidden">
+        
+        <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-2 border-b border-slate-200 gap-4 shrink-0">
+            <div>
+                <h2 class="text-xl font-bold tracking-tight text-slate-900 data-lang" data-en="10-Min Spatial Radar Rainfall Map (Nan Province)" data-th="ระบบแสดงผลข้อมูลฝนเรดาร์เชิงพื้นที่ราย 10 นาที (จ.น่าน)">ข้อมูลฝนเรดาร์เชิงพื้นที่ราย 10 นาที และฝนเรดาร์สะสมทั้งเหตุการณ์ (จ.น่าน)</h2>
+                <p class="text-xs text-slate-500 data-lang" data-en="10-Minute Radar Rainfall Display from Chiang Rai TMD Radar over Nan Province Boundary" data-th="แสดงผลฝนเรดาร์ราย 10 นาที จากสถานีเรดาร์เชียงราย กรมอุตุนิยมวิทยา เฉพาะขอบเขตจังหวัดน่าน">แสดงผลฝนเรดาร์ราย 10 นาที จากสถานีเรดาร์เชียงราย กรมอุตุนิยมวิทยา เฉพาะขอบเขตจังหวัดน่าน</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+                <div class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm flex items-center gap-1.5">
+                    <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                    <span>
+                        <span class="data-lang" data-en="ELAPSED TIME:" data-th="เวลาสะสม:">เวลาสะสม:</span> 
+                        <span id="accum-hours-counter" class="font-mono text-sm ml-0.5">0</span> 
+                        <span class="data-lang" data-en="STEPS" data-th="สเต็ป">สเต็ป</span>
+                    </span>
+                </div>
+                <div class="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-mono text-slate-700 shadow-sm" id="live-indicator">
+                    FRAME: Loading...
+                </div>
+            </div>
+        </header>
+
+        <!-- Time Control Bar -->
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-3 space-y-3 shrink-0">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-2 w-full lg:w-auto">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="calendar" class="w-4 h-4 text-blue-600"></i>
+                        <label for="datetime-selector" class="text-xs font-bold text-slate-600 uppercase whitespace-nowrap data-lang" data-en="Select Timestamp (10-Min):" data-th="เลือกช่วงเวลา (ราย 10 นาที):">เลือกช่วงเวลา (ราย 10 นาที):</label>
+                    </div>
+                    <select id="datetime-selector" class="bg-white border border-slate-200 rounded px-2.5 py-1 text-xs font-medium text-slate-700 outline-none shadow-sm w-full sm:w-auto sm:max-w-xs"></select>
+                </div>
+
+                <div class="flex items-center gap-2 text-slate-600 font-sans text-xs">
+                    <i data-lucide="gauge" class="w-4 h-4 text-slate-400"></i>
+                    <span class="data-lang" data-en="Speed:" data-th="ความเร็วสเต็ป:">ความเร็วสเต็ป:</span>
+                    <select id="speed-selector" class="bg-white border border-slate-200 rounded px-2 py-0.5 text-slate-700 outline-none text-xs">
+                        <option value="1000">1.0s / step</option>
+                        <option value="400">0.4s / step</option>
+                        <option value="150" selected>0.15s / step</option>
+                        <option value="80">0.08s / step</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Timeline Slider -->
+            <div class="flex items-center gap-4">
+                <span class="text-xs font-mono font-bold text-slate-400 data-lang" data-en="18 AUG 00:00" data-th="18 ส.ค. 00:00">18 ส.ค. 00:00</span>
+                <div class="relative flex-1 h-6 flex items-center">
+                    <div id="slider-track-highlights" class="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-2 bg-slate-200 rounded-lg pointer-events-none overflow-hidden"></div>
+                    <input type="range" id="timeline-slider" min="0" max="0" value="0" class="absolute inset-0 w-full h-full bg-transparent appearance-none cursor-pointer accent-blue-600 z-10">
+                </div>
+                <span class="text-xs font-mono font-bold text-slate-400 data-lang" data-en="20 AUG 19:30" data-th="20 ส.ค. 19:30">20 ส.ค. 19:30</span>
+            </div>
+
+            <div class="flex items-center justify-center gap-2">
+                <button id="btn-first" class="p-1.5 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 shadow-sm transition"><i data-lucide="chevrons-left" class="w-4 h-4"></i></button>
+                <button id="btn-prev" class="p-1.5 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 shadow-sm transition"><i data-lucide="skip-back" class="w-4 h-4"></i></button>
+                <button id="btn-play" class="flex items-center gap-2 px-5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow transition min-w-[130px] justify-center">
+                    <i data-lucide="play" class="w-3.5 h-3.5" id="play-icon"></i><span id="play-text" class="data-lang" data-en="Play Loop" data-th="เล่นวนลูป">เล่นวนลูป</span>
+                </button>
+                <button id="btn-next" class="p-1.5 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 shadow-sm transition"><i data-lucide="skip-forward" class="w-4 h-4"></i></button>
+                <button id="btn-last" class="p-1.5 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 shadow-sm transition"><i data-lucide="chevrons-right" class="w-4 h-4"></i></button>
+            </div>
+        </div>
+
+        <!-- Dual Map Grid -->
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 flex-1 md:overflow-hidden md:min-h-0 pb-2">
+            <!-- Map 1: Instantaneous Radar Intensity Rate (mm/hr) -->
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col relative h-[380px] md:h-full md:min-h-0">
+                <div class="bg-slate-900 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider shrink-0 data-lang" data-en="1. Instantaneous Radar Rainfall Intensity (mm/hr)" data-th="1. ปริมาณฝนเรดาร์ราย 10 นาที (มม./ชม.)">
+                    1. ปริมาณฝนเรดาร์ราย 10 นาที (มม./ชม.)
+                </div>
+                <div id="map-hourly" class="w-full flex-1 relative min-h-0"></div>
+                
+                <!-- Colorbar Legend 1 -->
+                <div class="absolute bottom-4 left-4 right-4 md:right-auto z-20 bg-white/95 backdrop-blur-sm border border-slate-200 px-3 py-2 rounded-lg shadow-md flex flex-col gap-1 md:w-72">
+                    <span class="text-[9px] font-bold uppercase text-slate-500 tracking-wider data-lang" data-en="Rainfall Intensity (mm/hr)" data-th="ความเข้มของฝน (มม./ชม.)">ความเข้มของฝน (มม./ชม.)</span>
+                    <div class="w-full h-3 rounded flex border border-slate-300 overflow-hidden">
+                        <div class="flex-1" style="background-color: #5293F8;"></div>
+                        <div class="flex-1" style="background-color: #2C51F2;"></div>
+                        <div class="flex-1" style="background-color: #2544B4;"></div>
+                        <div class="flex-1" style="background-color: #65C859;"></div>
+                        <div class="flex-1" style="background-color: #8FFF38;"></div>
+                        <div class="flex-1" style="background-color: #C8FF1E;"></div>
+                        <div class="flex-1" style="background-color: #FFFF0A;"></div>
+                        <div class="flex-1" style="background-color: #F8DC37;"></div>
+                        <div class="flex-1" style="background-color: #FF9900;"></div>
+                        <div class="flex-1" style="background-color: #FF0000;"></div>
+                        <div class="flex-1" style="background-color: #EC0050;"></div>
+                        <div class="flex-1" style="background-color: #AB0452;"></div>
+                        <div class="flex-1" style="background-color: #FF32FF;"></div>
+                        <div class="flex-1" style="background-color: #D30EFA;"></div>
+                        <div class="flex-1" style="background-color: #BB36F3;"></div>
+                    </div>
+                    <div class="flex justify-between text-[8px] font-mono font-bold text-slate-500 px-0.5">
+                        <span>0.2</span><span>5</span><span>15</span><span>25</span><span>40</span><span>60</span><span>100</span><span>200+</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map 2: Total Accumulated Radar Rainfall (Clear High-Contrast Scale) -->
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col relative h-[380px] md:h-full md:min-h-0">
+                <div class="bg-slate-900 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider shrink-0 data-lang" data-en="2. Total Accumulated Radar Rainfall (mm)" data-th="2. ปริมาณฝนเรดาร์สะสมทั้งเหตุการณ์ (มม.)">
+                    2. ปริมาณฝนเรดาร์สะสมทั้งเหตุการณ์ (มม.)
+                </div>
+                <div id="map-accumulated" class="w-full flex-1 relative min-h-0"></div>
+                
+                <!-- Colorbar Legend 2 (Clear Gradient & Adjusted Range) -->
+                <div class="absolute bottom-4 left-4 right-4 md:right-auto z-20 bg-white/95 backdrop-blur-sm border border-slate-200 px-3 py-2 rounded-lg shadow-md flex flex-col gap-1 md:w-80">
+                    <span class="text-[9px] font-bold uppercase text-slate-500 tracking-wider data-lang" data-en="Total Accumulated (mm)" data-th="ปริมาณฝนสะสมรวมทั้งเหตุการณ์ (มม.)">ปริมาณฝนสะสมรวมทั้งเหตุการณ์ (มม.)</span>
+                    <div class="w-full h-3 rounded flex border border-slate-300 overflow-hidden">
+                        <div class="flex-1" style="background-color: #bbf7d0;" title="10-30 mm"></div>
+                        <div class="flex-1" style="background-color: #4ade80;" title="30-50 mm"></div>
+                        <div class="flex-1" style="background-color: #16a34a;" title="50-100 mm"></div>
+                        <div class="flex-1" style="background-color: #fde047;" title="100-150 mm"></div>
+                        <div class="flex-1" style="background-color: #eab308;" title="150-200 mm"></div>
+                        <div class="flex-1" style="background-color: #f97316;" title="200-250 mm"></div>
+                        <div class="flex-1" style="background-color: #ea580c;" title="250-300 mm"></div>
+                        <div class="flex-1" style="background-color: #ef4444;" title="300-350 mm"></div>
+                        <div class="flex-1" style="background-color: #dc2626;" title="350-400 mm"></div>
+                        <div class="flex-1" style="background-color: #b91c1c;" title="400-450 mm"></div>
+                        <div class="flex-1" style="background-color: #a855f7;" title="450-500 mm"></div>
+                        <div class="flex-1" style="background-color: #7e22ce;" title="500+ mm"></div>
+                    </div>
+                    <div class="flex justify-between text-[8px] font-mono font-bold text-slate-600 px-0.5">
+                        <span>10</span><span>50</span><span>100</span><span>150</span><span>200</span><span>300</span><span>400</span><span class="text-purple-700 font-black">500+</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const INITIAL_CENTER = [18.7813, 100.7730];
+        const mapH = L.map('map-hourly').setView(INITIAL_CENTER, 9);
+        const mapA = L.map('map-accumulated').setView(INITIAL_CENTER, 9);
+
+        const baseTiles = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+        const attribution = '&copy; OpenStreetMap contributors &copy; CARTO';
+
+        L.tileLayer(baseTiles, { attribution }).addTo(mapH);
+        L.tileLayer(baseTiles, { attribution }).addTo(mapA);
+
+        mapH.on('move', () => mapA.setView(mapH.getCenter(), mapH.getZoom(), { animate: false }));
+        mapA.on('move', () => mapH.setView(mapH.getCenter(), mapH.getZoom(), { animate: false }));
+
+        const resizeObserver = new ResizeObserver(() => {
+            mapH.invalidateSize();
+            mapA.invalidateSize();
+        });
+        resizeObserver.observe(document.getElementById('map-hourly'));
+        resizeObserver.observe(document.getElementById('map-accumulated'));
+
+        // 1. โหลดขอบเขตจังหวัดน่าน (เส้นทึบหนา)
+        fetch('data/nan_province_boundary.geojson')
+            .then(res => {
+                if (res.ok) return res.json();
+                return fetch('data/nan_basin_boundary_4326.geojson').then(r => r.json());
+            })
+            .then(geoJsonData => {
+                const provinceStyle = { color: "#0f172a", weight: 2.2, fillColor: "transparent", fillOpacity: 0 };
+                const layerH = L.geoJSON(geoJsonData, { style: provinceStyle }).addTo(mapH);
+                L.geoJSON(geoJsonData, { style: provinceStyle }).addTo(mapA);
+                mapH.fitBounds(layerH.getBounds(), { padding: [10, 10] });
+            })
+            .catch(err => console.warn("Nan province boundary omitted:", err));
+
+        // 2. โหลดขอบเขตอำเภอ (เส้นประบาง)
+        fetch('data/nan_district_boundary.geojson')
+            .then(res => { if (res.ok) return res.json(); throw new Error('File not found'); })
+            .then(districtGeoJson => {
+                const districtStyle = { color: "#64748b", weight: 1.0, dashArray: '4, 4', fillColor: "transparent", fillOpacity: 0 };
+                L.geoJSON(districtGeoJson, { style: districtStyle }).addTo(mapH);
+                L.geoJSON(districtGeoJson, { style: districtStyle }).addTo(mapA);
+            })
+            .catch(err => console.warn("District boundary omitted:", err));
+
+        // ความเข้มฝนชั่วขณะราย 10 นาที (mm/hr) - Opacity = 0.7
+        function getHourlyColor(val) {
+            if (val <= 0.2) return 'transparent';
+            if (val <= 2)   return 'rgba(82, 147, 248, 0.7)';  
+            if (val <= 5)   return 'rgba(44, 81, 242, 0.7)';   
+            if (val <= 10)  return 'rgba(37, 68, 180, 0.7)';   
+            if (val <= 15)  return 'rgba(101, 200, 89, 0.7)';  
+            if (val <= 20)  return 'rgba(143, 255, 56, 0.7)';  
+            if (val <= 25)  return 'rgba(200, 255, 30, 0.7)';  
+            if (val <= 30)  return 'rgba(255, 255, 10, 0.7)';  
+            if (val <= 40)  return 'rgba(248, 220, 55, 0.7)';  
+            if (val <= 50)  return 'rgba(255, 153, 0, 0.7)';   
+            if (val <= 60)  return 'rgba(255, 0, 0, 0.7)';     
+            if (val <= 80)  return 'rgba(236, 0, 80, 0.7)';    
+            if (val <= 100) return 'rgba(171, 4, 82, 0.7)';    
+            if (val <= 150) return 'rgba(255, 50, 255, 0.7)';  
+            if (val <= 200) return 'rgba(211, 14, 250, 0.7)';  
+            return 'rgba(187, 54, 243, 0.7)';                 
+        }
+
+        // ฝนสะสมรวมทั้งเหตุการณ์ (0 - 500+ มม.) - Opacity = 0.7 อ่านง่ายชัดเจน
+        function getAccumColor(val) {
+            if (val <= 10)  return 'transparent'; 
+            if (val <= 30)  return 'rgba(187, 247, 208, 0.7)';  /* เขียวอ่อนมาก */
+            if (val <= 50)  return 'rgba(74, 222, 128, 0.7)';   /* เขียวสว่าง */
+            if (val <= 100) return 'rgba(22, 163, 74, 0.7)';    /* เขียวเข้ม */
+            if (val <= 150) return 'rgba(253, 224, 71, 0.7)';   /* เหลืองสด */
+            if (val <= 200) return 'rgba(234, 179, 8, 0.7)';    /* เหลืองเข้ม */
+            if (val <= 250) return 'rgba(249, 115, 22, 0.7)';   /* ส้ม */
+            if (val <= 300) return 'rgba(234, 88, 12, 0.7)';    /* ส้มเข้ม */
+            if (val <= 350) return 'rgba(239, 68, 68, 0.7)';    /* แดง */
+            if (val <= 400) return 'rgba(220, 38, 38, 0.7)';    /* แดงเข้ม */
+            if (val <= 450) return 'rgba(185, 28, 28, 0.7)';    /* แดงเลือดหมู */
+            if (val <= 500) return 'rgba(168, 85, 247, 0.7)';   /* ม่วงสด */
+            return 'rgba(126, 34, 206, 0.7)';                   /* ม่วงเข้ม */
+        }
+
+        let currentLang = 'th';
+
+        function create10MinSequence(startStr, endStr) {
+            let res = [];
+            let curr = new Date(startStr);
+            const stop = new Date(endStr);
+            let idx = 0;
+            while (curr <= stop) {
+                const y = curr.getFullYear();
+                const m = String(curr.getMonth() + 1).padStart(2, '0');
+                const d = String(curr.getDate()).padStart(2, '0');
+                const h = String(curr.getHours()).padStart(2, '0');
+                const min = String(curr.getMinutes()).padStart(2, '0');
+                
+                const idString = `${y}${m}${d}${h}${min}00`;
+                
+                const labelEN = curr.toLocaleString('en-US', { month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }) + " ICT";
+                const labelTH = curr.toLocaleString('th-TH', { month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }) + " น. ICT";
+                
+                res.push({ index: idx++, id: idString, labelEN: labelEN, labelTH: labelTH, rawDate: new Date(curr) });
+                curr.setMinutes(curr.getMinutes() + 10);
+            }
+            return res;
+        }
+
+        const frameSequence = create10MinSequence("2026-08-18T00:00:00", "2026-08-20T19:30:00");
+
+        let currentHourlyLayer = null;
+        let currentAccumLayer = null;
+        let loadedMatrixCache = {}; 
+        let currentDataPayload = null;
+
+        L.PixelPerfectRadarLayer = L.Layer.extend({
+            initialize: function (data, colorFn) {
+                this.data = data;
+                this.colorFn = colorFn;
+            },
+            onAdd: function (map) {
+                this._map = map;
+                this._canvas = L.DomUtil.create('canvas', 'leaflet-layer pixel-radar-layer');
+                this._canvas.style.pointerEvents = 'none'; 
+                map.getPanes().overlayPane.appendChild(this._canvas);
+                map.on('moveend viewreset zoomanim', this._render, this);
+                this._render();
+            },
+            onRemove: function (map) {
+                map.getPanes().overlayPane.removeChild(this._canvas);
+                map.off('moveend viewreset zoomanim', this._render, this);
+            },
+            _render: function () {
+                if (!this._map || !this.data) return;
+
+                const mapSize = this._map.getSize();
+                this._canvas.width = mapSize.x;
+                this._canvas.height = mapSize.y;
+
+                const topLeft = this._map.containerPointToLayerPoint([0, 0]);
+                L.DomUtil.setPosition(this._canvas, topLeft);
+
+                const ctx = this._canvas.getContext('2d');
+                ctx.clearRect(0, 0, mapSize.x, mapSize.y);
+
+                const b = this.data.bounds; 
+                const rows = this.data.rows;
+                const cols = this.data.cols;
+
+                const isHourly = (this.colorFn === getHourlyColor);
+                const matrix = isHourly ? this.data.hourly_matrix : this.data.accum_matrix;
+
+                const pNW = this._map.latLngToContainerPoint([b[1][0], b[0][1]]);
+                const pSE = this._map.latLngToContainerPoint([b[0][0], b[1][1]]);
+
+                const extentWidth = pSE.x - pNW.x;
+                const extentHeight = pSE.y - pNW.y;
+
+                const cellW = extentWidth / cols;
+                const cellH = extentHeight / rows;
+
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        let val = matrix[r][c];
+                        if (val <= 0.05) continue;
+
+                        // แปลงฝนราย 10 นาทีเป็น มม./ชม. สำหรับแผนที่ 1
+                        if (isHourly) {
+                            val = val * 6.0;
+                        }
+
+                        if (val <= 0.2) continue;
+
+                        const xPos = pNW.x + (c * cellW);
+                        const yPos = pNW.y + (r * cellH);
+
+                        ctx.fillStyle = this.colorFn(val);
+                        ctx.fillRect(Math.floor(xPos), Math.floor(yPos), Math.ceil(cellW) + 0.6, Math.ceil(cellH) + 0.6);
+                    }
+                }
+            }
+        });
+
+        function loadAndRenderFrame(frameIndex) {
+            const frame = frameSequence[frameIndex];
+            currentFrameIndex = frameIndex;
+
+            slider.value = frameIndex;
+            selector.value = frameIndex;
+            
+            const frameWord = currentLang === 'en' ? 'FRAME' : 'เฟรม';
+            indicator.innerText = `${frameWord}: ${frameIndex + 1} / ${frameSequence.length}`;
+            document.getElementById('accum-hours-counter').innerText = frameIndex; 
+
+            if (loadedMatrixCache[frame.id]) {
+                currentDataPayload = loadedMatrixCache[frame.id];
+                applyPerfectCanvasLayers(currentDataPayload);
+                return;
+            }
+
+            fetch(`data_json/data_${frame.id}.json`)
+                .then(res => res.json())
+                .then(data => {
+                    loadedMatrixCache[frame.id] = data;
+                    currentDataPayload = data;
+                    applyPerfectCanvasLayers(data);
+                })
+                .catch(err => console.warn(`Missing JSON data for: data_${frame.id}.json`));
+        }
+
+        function applyPerfectCanvasLayers(data) {
+            if (currentHourlyLayer) mapH.removeLayer(currentHourlyLayer);
+            if (currentAccumLayer) mapA.removeLayer(currentAccumLayer);
+
+            currentHourlyLayer = new L.PixelPerfectRadarLayer(data, getHourlyColor).addTo(mapH);
+            currentAccumLayer = new L.PixelPerfectRadarLayer(data, getAccumColor).addTo(mapA);
+        }
+
+        const popupH = L.popup({ closeButton: false, autoPan: false });
+        const popupA = L.popup({ closeButton: false, autoPan: false });
+
+        function handleMapGridInterrogation(e, activeMap, isAccum) {
+            if (!currentDataPayload) return;
+            
+            const b = currentDataPayload.bounds;
+            const lat = e.latlng.lat; 
+            const lng = e.latlng.lng;
+            const targetPopup = isAccum ? popupA : popupH;
+
+            if (lat >= b[0][0] && lat <= b[1][0] && lng >= b[0][1] && lng <= b[1][1]) {
+                const pctX = (lng - b[0][1]) / (b[1][1] - b[0][1]);
+                const pctY = (b[1][0] - lat) / (b[1][0] - b[0][0]);
+                
+                const c = Math.floor(pctX * currentDataPayload.cols);
+                const r = Math.floor(pctY * currentDataPayload.rows);
+
+                if (r >= 0 && r < currentDataPayload.rows && c >= 0 && c < currentDataPayload.cols) {
+                    const raw10MinVal = currentDataPayload.hourly_matrix[r][c];
+                    const hVal = raw10MinVal * 6.0;
+                    const aVal = currentDataPayload.accum_matrix[r][c];
+                    
+                    let contentString = "";
+                    if (isAccum) {
+                        const wordAccum = currentLang === 'en' ? 'Accumulated' : 'ปริมาณฝนสะสม';
+                        contentString = `<div class="p-1 font-mono text-xs text-amber-900 font-bold">${wordAccum}: ${aVal.toFixed(1)} mm</div>`;
+                    } else {
+                        const wordHourly = currentLang === 'en' ? 'Intensity' : 'ความเข้มฝน';
+                        contentString = `<div class="p-1 font-mono text-xs text-blue-900 font-bold">${wordHourly}: ${hVal.toFixed(1)} mm/hr</div>`;
+                    }
+                    
+                    targetPopup.setLatLng(e.latlng).setContent(contentString).openOn(activeMap);
+                    return;
+                }
+            }
+            activeMap.closePopup(targetPopup);
+        }
+
+        mapH.on('mousemove', (e) => handleMapGridInterrogation(e, mapH, false));
+        mapA.on('mousemove', (e) => handleMapGridInterrogation(e, mapA, true));
+        mapH.on('mouseout', () => mapH.closePopup(popupH));
+        mapA.on('mouseout', () => mapA.closePopup(popupA));
+
+        let currentFrameIndex = 0;
+        let isPlaying = false;
+        let playbackTimer = null;
+        let playSpeedMs = 150;
+
+        const slider = document.getElementById('timeline-slider');
+        const selector = document.getElementById('datetime-selector');
+        const speedSelector = document.getElementById('speed-selector');
+        const btnPlay = document.getElementById('btn-play');
+        const indicator = document.getElementById('live-indicator');
+
+        function rebuildDropdownOptions() {
+            selector.innerHTML = '';
+            frameSequence.forEach(f => {
+                const opt = document.createElement('option'); 
+                opt.value = f.index; 
+                opt.innerText = currentLang === 'en' ? f.labelEN : f.labelTH;
+                selector.appendChild(opt);
+            });
+            selector.value = currentFrameIndex;
+        }
+
+        frameSequence.forEach(f => {
+            const opt = document.createElement('option'); opt.value = f.index; opt.innerText = f.labelTH;
+            selector.appendChild(opt);
+        });
+        slider.max = frameSequence.length - 1;
+
+        function startAnimation() {
+            isPlaying = true; btnPlay.classList.replace('bg-blue-600', 'bg-slate-700');
+            
+            const pauseLabel = currentLang === 'en' ? 'Pause Loop' : 'หยุดลูป';
+            document.getElementById('play-text').innerText = pauseLabel;
+            document.getElementById('play-icon').setAttribute('data-lucide', 'pause');
+            lucide.createIcons();
+            playbackTimer = setInterval(() => {
+                loadAndRenderFrame((currentFrameIndex + 1) % frameSequence.length);
+            }, playSpeedMs);
+        }
+
+        function stopAnimation() {
+            isPlaying = false; btnPlay.classList.replace('bg-slate-700', 'bg-blue-600');
+            
+            const playLabel = currentLang === 'en' ? 'Play Loop' : 'เล่นวนลูป';
+            document.getElementById('play-text').innerText = playLabel;
+            document.getElementById('play-icon').setAttribute('data-lucide', 'play');
+            lucide.createIcons(); clearInterval(playbackTimer);
+        }
+
+        btnPlay.addEventListener('click', () => isPlaying ? stopAnimation() : startAnimation());
+        document.getElementById('btn-next').addEventListener('click', () => { stopAnimation(); if(currentFrameIndex < frameSequence.length - 1) loadAndRenderFrame(currentFrameIndex + 1); });
+        document.getElementById('btn-prev').addEventListener('click', () => { stopAnimation(); if(currentFrameIndex > 0) loadAndRenderFrame(currentFrameIndex - 1); });
+        document.getElementById('btn-first').addEventListener('click', () => { stopAnimation(); loadAndRenderFrame(0); });
+        document.getElementById('btn-last').addEventListener('click', () => { stopAnimation(); loadAndRenderFrame(frameSequence.length - 1); });
+        slider.addEventListener('input', (e) => { stopAnimation(); loadAndRenderFrame(parseInt(e.target.value)); });
+        selector.addEventListener('change', (e) => { stopAnimation(); loadAndRenderFrame(parseInt(e.target.value)); });
+        speedSelector.addEventListener('change', (e) => { playSpeedMs = parseInt(e.target.value); if(isPlaying) { stopAnimation(); startAnimation(); }});
+
+        const langToggleBtn = document.getElementById('langToggle');
+        const langText = document.getElementById('langText');
+        const translatableElements = document.querySelectorAll('.data-lang');
+
+        langToggleBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'th' : 'en';
+            langText.innerText = currentLang === 'en' ? 'TH / ภาษาไทย' : 'EN / English';
+            document.documentElement.lang = currentLang;
+
+            translatableElements.forEach(el => {
+                const translation = el.getAttribute(`data-${currentLang}`);
+                if (translation) {
+                    if (el.innerHTML.includes('<i') || el.innerHTML.includes('<span')) {
+                        const icon = el.querySelector('i');
+                        if(icon) {
+                            el.innerHTML = '';
+                            el.appendChild(icon);
+                            el.append(' ' + translation);
+                        } else {
+                            const innerCounter = el.querySelector('#accum-hours-counter');
+                            if(!innerCounter) {
+                                el.innerHTML = translation;
+                            }
+                        }
+                    } else {
+                        el.innerHTML = translation;
+                    }
+                }
+            });
+
+            if(currentLang === 'en') {
+                document.getElementById('btn-play').innerHTML = `<i data-lucide="${isPlaying ? 'pause':'play'}" class="w-3.5 h-3.5" id="play-icon"></i><span id="play-text" class="data-lang" data-en="Play Loop" data-th="เล่นวนลูป">${isPlaying ? 'Pause Loop':'Play Loop'}</span>`;
+            } else {
+                document.getElementById('btn-play').innerHTML = `<i data-lucide="${isPlaying ? 'pause':'play'}" class="w-3.5 h-3.5" id="play-icon"></i><span id="play-text" class="data-lang" data-en="Play Loop" data-th="เล่นวนลูป">${isPlaying ? 'หยุดลูป':'เล่นวนลูป'}</span>`;
+            }
+
+            rebuildDropdownOptions();
+            loadAndRenderFrame(currentFrameIndex);
+            lucide.createIcons();
+        });
+
+        lucide.createIcons();
+        loadAndRenderFrame(0);
+    </script>
+</body>
+</html>
