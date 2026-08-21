@@ -47,47 +47,38 @@
             </div>
 
             <nav class="space-y-1 text-xs">
-                <!-- 1. สรุปภาพรวม (Active Page) -->
                 <a href="index.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all font-medium">
-                    <i data-lucide="waves" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                    <i data-lucide="file-text" class="w-4 h-4 text-slate-400 shrink-0"></i>
                     <span class="data-lang" data-en="1. Overview Report" data-th="1. สรุปภาพรวมเหตุการณ์">1. สรุปภาพรวมเหตุการณ์</span>
                 </a>
-                
-                <!-- 2. สถานีวัดน้ำฝน (Active Page) -->
                 <a href="gauge_stations.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-blue-50 text-blue-700 font-bold shadow-sm transition-all">
                     <i data-lucide="cloud-rain" class="w-4 h-4 text-blue-600 shrink-0"></i>
                     <span class="data-lang" data-en="2. Rainfall Stations" data-th="2. สถานีวัดน้ำฝน">2. สถานีวัดน้ำฝน</span>
                 </a>
-
-                <!-- 3. สถานีวัดระดับน้ำ (Active Link) -->
                 <a href="water_levels.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all font-medium">
                     <i data-lucide="waves" class="w-4 h-4 text-slate-400 shrink-0"></i>
                     <span class="data-lang" data-en="3. Water Level Stations" data-th="3. สถานีวัดระดับน้ำ">3. สถานีวัดระดับน้ำ</span>
                 </a>
-
-                <!-- 4. สถานการณ์อัตราการไหล (กำลังปรับปรุง) -->
                 <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
                     <i data-lucide="activity" class="w-4 h-4 shrink-0"></i>
                     <span class="font-semibold data-lang" data-en="4. Discharge Situation (Under Maintenance)" data-th="4. สถานการณ์อัตราการไหล (กำลังปรับปรุง)">4. สถานการณ์อัตราการไหล (กำลังปรับปรุง)</span>
                 </div>
-
-                <!-- 5. ภาพเคลื่อนไหวฝนเรดาร์ (Active Link) -->
-                <a href="rainfall_stations.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all font-medium">
+                <a href="radar_animation.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all font-medium">
                     <i data-lucide="play-circle" class="w-4 h-4 text-slate-400 shrink-0"></i>
                     <span class="data-lang" data-en="5. Radar Animation" data-th="5. ภาพเคลื่อนไหวฝนเรดาร์">5. ภาพเคลื่อนไหวฝนเรดาร์</span>
                 </a>
-
-                <!-- 6. ปริมาณฝนเรดาร์เชิงพื้นที่ (Active Link) -->
                 <a href="district_rainfall.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all font-medium">
                     <i data-lucide="map-pin" class="w-4 h-4 text-slate-400 shrink-0"></i>
                     <span class="data-lang" data-en="6. Spatial Radar Rainfall" data-th="6. ปริมาณฝนเรดาร์เชิงพื้นที่">6. ปริมาณฝนเรดาร์เชิงพื้นที่</span>
                 </a>
-
-                <!-- 7. แผนที่น้ำท่วม (กำลังปรับปรุง) -->
                 <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
                     <i data-lucide="map" class="w-4 h-4 shrink-0"></i>
                     <span class="font-semibold data-lang" data-en="7. Flood Mapping (Under Maintenance)" data-th="7. แผนที่น้ำท่วม (กำลังปรับปรุง)">7. แผนที่น้ำท่วม (กำลังปรับปรุง)</span>
                 </div>
+                <a href="flood_marks.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all font-medium">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                    <span class="data-lang" data-en="8. Flood & Landslide Marks" data-th="8. จุดน้ำท่วม/ดินถล่ม">8. จุดน้ำท่วม/ดินถล่ม</span>
+                </a>
             </nav>
         </div>
         <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-400 font-medium hidden md:block">
@@ -96,7 +87,7 @@
     </aside>
 
     <!-- Main Content Panel -->
-    <main class="flex-1 flex flex-col h-screen max-h-screen min-w-0 p-6 md:p-8 space-y-6 overflow-hidden">
+    <main class="flex-1 flex flex-col h-screen max-h-screen min-w-0 p-6 md:p-8 space-y-6 overflow-hidden relative">
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-200 gap-4">
             <div>
                 <h2 class="text-2xl font-bold tracking-tight text-slate-900 data-lang" data-en="Telemetric Rainfall Station Data" data-th="ข้อมูลฝนจากสถานีโทรมาตร">ข้อมูลฝนจากสถานีโทรมาตร</h2>
@@ -166,7 +157,7 @@
                     <span class="flex items-center gap-2 data-lang" data-en="Station List" data-th="รายชื่อสถานีวัดน้ำฝน"><i data-lucide="list-ordered" class="w-3.5 h-3.5"></i> รายชื่อสถานีวัดน้ำฝน</span>
                     <span id="counter-badge" class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[11px] font-bold">0 Active</span>
                 </div>
-                
+
                 <div id="stations-list-container" class="p-4 overflow-y-auto divide-y divide-slate-100 flex-1 min-h-0 space-y-3 bg-slate-50/30"></div>
 
                 <div class="p-3.5 bg-slate-50 border-t border-slate-200 text-[11px] text-slate-500 leading-relaxed shrink-0 mt-auto">
@@ -183,9 +174,17 @@
                 </div>
             </div>
         </div>
+
+        <!-- Floating Comparison Trigger Button -->
+        <div id="compare-float-bar" class="absolute bottom-10 right-12 z-40 hidden">
+            <button onclick="triggerCompareModal()" class="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-full shadow-2xl transition flex items-center gap-2.5 border-2 border-white animate-bounce">
+                <i data-lucide="layers" class="w-4 h-4"></i>
+                <span>เปรียบเทียบกราฟฝนสะสม (<span id="compare-count-badge">0</span>/5)</span>
+            </button>
+        </div>
     </main>
 
-    <!-- Hydrograph Modal -->
+    <!-- Hydrograph Modal (Single Station Mass Curve) -->
     <div id="graph-modal-overlay" class="fixed inset-0 bg-slate-900/60 z-50 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-4xl rounded-xl border border-slate-200 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
@@ -205,16 +204,42 @@
         </div>
     </div>
 
+    <!-- Comparison Modal (Multi-Station Mass Curve) -->
+    <div id="compare-modal-overlay" class="fixed inset-0 bg-slate-900/60 z-50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-5xl rounded-xl border border-slate-200 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                <div>
+                    <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="line-chart" class="w-5 h-5 text-blue-600"></i> เปรียบเทียบปริมาณฝนสะสมเชิงเวลา (Mass Curve Comparison)
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-0.5">แสดงการสะสมของปริมาณฝนในสถานีที่เลือกสูงสุด 5 สถานี</p>
+                </div>
+                <button onclick="closeCompareModal()" class="p-1.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-500 rounded-lg shadow-sm transition">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto flex-1 bg-white">
+                <div class="relative w-full h-[400px]">
+                    <canvas id="compare-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         let stationsData = [];
         let stationTelemetryDB = {};
         let timeControlTimeline = { "daily_steps": [], "hourly_steps": [] };
-        let map, markerLayerGroup, popupChartInstance = null;
+        let map, markerLayerGroup, popupChartInstance = null, compareChartInstance = null;
         let nativeLayerControl = null;
 
         let currentTimeScale = 'daily'; 
         let currentTimeIndex = 0;        
         let currentLang = 'th';
+
+        // Selected stations for comparison (Max 5)
+        let selectedCompareCodes = [];
+        const COLOR_PALETTE = ['#2563eb', '#dc2626', '#16a34a', '#d97706', '#9333ea'];
 
         function getThresholdColor(val, scale) {
             if (val === "-" || val === null || isNaN(val) || val < 0.2) return "#e2e8f0";
@@ -294,49 +319,11 @@
             nativeLayerControl = L.control.layers(null, null, { position: 'topright', collapsed: false }).addTo(map);
 
             const overlayLayersConfig = [
-                { 
-                    key: 'basin', 
-                    name: 'ขอบเขตลุ่มน้ำน่าน (Main Basin)', 
-                    url: 'data/nan_basin_boundary_4326.geojson', 
-                    color: '#1e293b', 
-                    weight: 2.5, 
-                    dashArray: '8, 6', 
-                    active: false 
-                },
-                { 
-                    key: 'subbasin', 
-                    name: 'ขอบเขตลุ่มน้ำย่อย (Sub Basin)', 
-                    url: 'data/nan_subbasin_boundary_4326.geojson', 
-                    color: '#475569', 
-                    weight: 1.5, 
-                    dashArray: '5, 5', 
-                    active: false 
-                },
-                { 
-                    key: 'river', 
-                    name: 'ลำน้ำสายหลัก (Main Rivers)', 
-                    url: 'data/nan_main_rivers.geojson', 
-                    color: '#0000ff', 
-                    weight: 1.0, 
-                    active: false 
-                },
-                { 
-                    key: 'province', 
-                    name: 'ขอบเขตจังหวัดน่าน (Province)', 
-                    url: 'data/nan_province_boundary.geojson', 
-                    color: '#0f172a', 
-                    weight: 2.2, 
-                    active: true 
-                },
-                { 
-                    key: 'district', 
-                    name: 'ขอบเขตอำเภอ (District)', 
-                    url: 'data/nan_district_boundary.geojson', 
-                    color: '#64748b', 
-                    weight: 1.0, 
-                    dashArray: '3, 3', 
-                    active: true 
-                }
+                { key: 'basin', name: 'ขอบเขตลุ่มน้ำน่าน (Main Basin)', url: 'data/nan_basin_boundary_4326.geojson', color: '#1e293b', weight: 2.5, dashArray: '8, 6', active: false },
+                { key: 'subbasin', name: 'ขอบเขตลุ่มน้ำย่อย (Sub Basin)', url: 'data/nan_subbasin_boundary_4326.geojson', color: '#475569', weight: 1.5, dashArray: '5, 5', active: false },
+                { key: 'river', name: 'ลำน้ำสายหลัก (Main Rivers)', url: 'data/nan_main_rivers.geojson', color: '#0000ff', weight: 1.0, active: false },
+                { key: 'province', name: 'ขอบเขตจังหวัดน่าน (Province)', url: 'data/nan_province_boundary.geojson', color: '#0f172a', weight: 2.2, active: true },
+                { key: 'district', name: 'ขอบเขตอำเภอ (District)', url: 'data/nan_district_boundary.geojson', color: '#64748b', weight: 1.0, dashArray: '3, 3', active: true }
             ];
 
             overlayLayersConfig.forEach(b => {
@@ -346,13 +333,7 @@
                         if (geoJsonData) {
                             let geoLayer = L.geoJSON(geoJsonData, {
                                 interactive: false,
-                                style: { 
-                                    color: b.color, 
-                                    weight: b.weight, 
-                                    dashArray: b.dashArray || null, 
-                                    fillColor: 'transparent', 
-                                    fillOpacity: 0 
-                                }
+                                style: { color: b.color, weight: b.weight, dashArray: b.dashArray || null, fillColor: 'transparent', fillOpacity: 0 }
                             });
                             nativeLayerControl.addOverlay(geoLayer, b.name);
                             if (b.active) {
@@ -451,6 +432,32 @@
             updateDashboardViews(filtered);
         }
 
+        function toggleCompareSelection(code) {
+            const idx = selectedCompareCodes.indexOf(code);
+            if (idx > -1) {
+                selectedCompareCodes.splice(idx, 1);
+            } else {
+                if (selectedCompareCodes.length >= 5) {
+                    alert("สามารถเลือกเปรียบเทียบได้สูงสุด 5 สถานี");
+                    return;
+                }
+                selectedCompareCodes.push(code);
+            }
+            updateCompareFloatBar();
+            executeCombinedFilters();
+        }
+
+        function updateCompareFloatBar() {
+            const floatBar = document.getElementById('compare-float-bar');
+            const countBadge = document.getElementById('compare-count-badge');
+            countBadge.innerText = selectedCompareCodes.length;
+            if (selectedCompareCodes.length > 0) {
+                floatBar.classList.remove('hidden');
+            } else {
+                floatBar.classList.add('hidden');
+            }
+        }
+
         function updateDashboardViews(sortedArray) {
             markerLayerGroup.clearLayers();
             const listContainer = document.getElementById('stations-list-container');
@@ -470,7 +477,7 @@
                     radius: 7.5, fillColor: thresholdColor, color: '#ffffff', weight: 1.8, opacity: 1, fillOpacity: 0.85
                 });
 
-                const stnCode = stn["Station Code"] || stn.station_code || "";
+                const stnCode = String(stn["Station Code"] || stn.station_code || "");
                 const stnName = stn["Station Name"] || stn.station_name || "";
                 const stnAgency = stn.Agency || stn.agency || "";
                 const stnDistrict = stn.district || stn.Amphoe || "-";
@@ -484,9 +491,14 @@
                 `);
                 markerLayerGroup.addLayer(marker);
 
+                const isChecked = selectedCompareCodes.includes(stnCode);
+
                 const card = document.createElement('div');
-                card.className = "bg-white p-4 border border-slate-200/80 rounded-lg shadow-sm hover:border-blue-400 transition flex items-start justify-between gap-4 cursor-pointer";
+                card.className = `bg-white p-4 border rounded-lg shadow-sm hover:border-blue-400 transition flex items-start justify-between gap-3 cursor-pointer ${isChecked ? 'border-blue-500 bg-blue-50/20' : 'border-slate-200/80'}`;
                 card.innerHTML = `
+                    <div class="flex items-center pt-1" onclick="event.stopPropagation()">
+                        <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleCompareSelection('${stnCode}')" class="w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500 cursor-pointer">
+                    </div>
                     <div class="space-y-1 min-w-0 flex-1">
                         <div class="flex items-center gap-1.5">
                             <span class="bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded text-[10px] font-mono font-bold border border-slate-200">${stnCode}</span>
@@ -515,7 +527,7 @@
                 listContainer.appendChild(card);
             });
 
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
         }
 
         window.switchTimeScale = function(scaleKey) {
@@ -546,6 +558,7 @@
             executeCombinedFilters();
         };
 
+        // Single Station Mass Curve Modal (Handling Missing/NaN data)
         window.triggerGraphModal = function(code, name) {
             const telemetry = stationTelemetryDB[String(code)];
             if (!telemetry || !telemetry.hourly_values) {
@@ -558,7 +571,20 @@
             document.getElementById('graph-modal-overlay').classList.remove('hidden');
 
             let runningSum = 0;
-            const cumulativeSeries = telemetry.hourly_values.map(val => (runningSum += (val || 0)));
+            let hasValidData = false;
+
+            const cumulativeSeries = telemetry.hourly_values.map(val => {
+                if (val === null || val === undefined || isNaN(val)) {
+                    return null; // Missing data breaks line
+                }
+                runningSum += val;
+                hasValidData = true;
+                return runningSum;
+            });
+
+            const barValues = telemetry.hourly_values.map(val => {
+                return (val === null || val === undefined || isNaN(val)) ? null : val;
+            });
 
             const ctx = document.getElementById('mass-curve-canvas').getContext('2d');
             if (popupChartInstance) popupChartInstance.destroy();
@@ -574,12 +600,13 @@
                             borderColor: '#0f172a',
                             borderWidth: 2,
                             pointRadius: 0,
+                            spanGaps: false, // Discontinue line on missing data
                             yAxisID: 'yLeft'
                         },
                         {
                             type: 'bar',
                             label: 'ความเข้มฝนรายชั่วโมง (มม./ชม.)',
-                            data: telemetry.hourly_values,
+                            data: barValues,
                             backgroundColor: 'rgba(29, 78, 216, 0.4)',
                             borderColor: '#1d4ed8',
                             borderWidth: 1,
@@ -599,8 +626,76 @@
             });
         };
 
+        // Multi-Station Mass Curve Comparison Modal
+        window.triggerCompareModal = function() {
+            if (selectedCompareCodes.length === 0) return;
+
+            document.getElementById('compare-modal-overlay').classList.remove('hidden');
+
+            let globalTimestamps = [];
+            const datasets = [];
+
+            selectedCompareCodes.forEach((code, idx) => {
+                const telemetry = stationTelemetryDB[String(code)];
+                const stnObj = stationsData.find(s => String(s["Station Code"] || s.station_code) === String(code));
+                const stnName = stnObj ? (stnObj["Station Name"] || stnObj.station_name) : code;
+
+                if (telemetry && telemetry.hourly_values) {
+                    if (globalTimestamps.length === 0) {
+                        globalTimestamps = telemetry.hourly_timestamps;
+                    }
+
+                    let runningSum = 0;
+                    const cumulativeSeries = telemetry.hourly_values.map(val => {
+                        if (val === null || val === undefined || isNaN(val)) {
+                            return null;
+                        }
+                        runningSum += val;
+                        return runningSum;
+                    });
+
+                    datasets.push({
+                        label: `${stnName} (${code})`,
+                        data: cumulativeSeries,
+                        borderColor: COLOR_PALETTE[idx % COLOR_PALETTE.length],
+                        backgroundColor: COLOR_PALETTE[idx % COLOR_PALETTE.length],
+                        borderWidth: 2.5,
+                        pointRadius: 0,
+                        spanGaps: false // Discontinue line on missing data
+                    });
+                }
+            });
+
+            const ctx = document.getElementById('compare-canvas').getContext('2d');
+            if (compareChartInstance) compareChartInstance.destroy();
+
+            compareChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: globalTimestamps,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'top', labels: { font: { size: 11, weight: 'bold' } } }
+                    },
+                    scales: {
+                        x: { ticks: { maxRotation: 45, font: { size: 9 } } },
+                        y: { type: 'linear', title: { display: true, text: 'ปริมาณฝนสะสม (มม.)', font: { weight: 'bold' } } }
+                    }
+                }
+            });
+        };
+
         window.closeGraphModal = function() {
             document.getElementById('graph-modal-overlay').classList.add('hidden');
+        };
+
+        window.closeCompareModal = function() {
+            document.getElementById('compare-modal-overlay').classList.add('hidden');
         };
 
         window.adjustTimeIndex = function(direction) {

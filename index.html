@@ -35,7 +35,7 @@
             </div>
 
             <nav class="space-y-1 text-xs">
-                <!-- 1. สรุปภาพรวม (Active Page) -->
+                <!-- 1. สรุปภาพรวม -->
                 <a href="index.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-blue-50 text-blue-700 font-bold shadow-sm transition-all">
                     <i data-lucide="file-text" class="w-4 h-4 text-blue-600 shrink-0"></i>
                     <span class="data-lang" data-en="1. Overview Report" data-th="1. สรุปภาพรวมเหตุการณ์">1. สรุปภาพรวมเหตุการณ์</span>
@@ -76,6 +76,12 @@
                     <i data-lucide="map" class="w-4 h-4 shrink-0"></i>
                     <span class="font-semibold data-lang" data-en="7. Flood Mapping (Maintenance)" data-th="7. แผนที่น้ำท่วม (กำลังปรับปรุง)">7. แผนที่น้ำท่วม (กำลังปรับปรุง)</span>
                 </div>
+
+                <!-- 8. จุดน้ำท่วม/ดินถล่ม -->
+                <a href="flood_marks.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all font-medium">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                    <span class="data-lang" data-en="8. Flood & Landslide Marks" data-th="8. จุดน้ำท่วม/ดินถล่ม">8. จุดน้ำท่วม/ดินถล่ม</span>
+                </a>
             </nav>
         </div>
         <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-400 font-medium hidden md:block">
@@ -96,7 +102,7 @@
             <p class="text-sm text-slate-500 mt-1 data-lang" data-en="Comprehensive overview of weather patterns, rainfall extremes, river stages, and spatial radar accumulations during the 18-20 Aug 2026 event." data-th="สรุปภาพรวมสภาพอากาศ ปริมาณฝนสูงสุดจากสถานีวัด ระดับน้ำในแม่น้ำสายหลัก และการสะสมเชิงพื้นที่ของฝนเรดาร์ตลอดช่วงเหตุการณ์">สรุปภาพรวมสภาพอากาศ ปริมาณฝนสูงสุดจากสถานีวัด ระดับน้ำในแม่น้ำสายหลัก และการสะสมเชิงพื้นที่ของฝนเรดาร์ตลอดช่วงเหตุการณ์</p>
         </header>
 
-<!-- 1. แผนที่อากาศย้อนหลัง (ปรับปรุงช่วงเวลาเริ่ม 18 ส.ค. 07:00 - 20 ส.ค. 19:00 น. รวม 11 ภาพ) -->
+<!-- 1. แผนที่อากาศย้อนหลัง (ปรับปรุงขนาดภาพใหญ่ขึ้น และย้ายคำอธิบายลงใต้ภาพ) -->
         <section class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-2">
                 <div>
@@ -123,53 +129,51 @@
                 </div>
             </div>
 
-            <!-- Image Slider Container (11 รูป JPG สอดคล้องกับไฟล์จริง) -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                <div class="lg:col-span-7 bg-slate-900 rounded-xl overflow-hidden border border-slate-200 p-3 min-h-[380px] max-h-[420px] flex items-center justify-center relative shadow-inner">
-                    <div class="synoptic-slide active w-full h-full text-center">
-                        <img src="data/synoptic/20260818_07.jpg" alt="18 ส.ค. 07:00" class="max-h-[380px] mx-auto object-contain rounded">
-                    </div>
-                    <div class="synoptic-slide w-full h-full text-center">
-                        <img src="data/synoptic/20260818_13.jpg" alt="18 ส.ค. 13:00" class="max-h-[380px] mx-auto object-contain rounded">
-                    </div>
-                    <div class="synoptic-slide w-full h-full text-center">
-                        <img src="data/synoptic/20260818_19.jpg" alt="18 ส.ค. 19:00" class="max-h-[380px] mx-auto object-contain rounded">
-                    </div>
-                    <div class="synoptic-slide w-full h-full text-center">
-                        <img src="data/synoptic/20260819_01.jpg" alt="19 ส.ค. 01:00" class="max-h-[380px] mx-auto object-contain rounded">
-                    </div>
-                    <div class="synoptic-slide w-full h-full text-center">
-                        <img src="data/synoptic/20260819_07.jpg" alt="19 ส.ค. 07:00" class="max-h-[380px] mx-auto object-contain rounded">
-                    </div>
-                    <div class="synoptic-slide w-full h-full text-center">
-                        <img src="data/synoptic/20260819_13.jpg" alt="19 ส.ค. 13:00" class="max-h-[380px] mx-auto object-contain rounded">
-                    </div>
-                    <div class="synoptic-slide w-full h-full text-center">
-                        <img src="data/synoptic/20260819_19.jpg" alt="19 ส.ค. 19:00" class="max-h-[380px] mx-auto object-contain rounded">
-                    </div>
-                    <div class="synoptic-slide w-full h-full text-center">
-                        <img src="data/synoptic/20260820_01.jpg" alt="20 ส.ค. 01:00" class="max-h-[380px] mx-auto object-contain rounded">
-                    </div>
-                    <div class="synoptic-slide w-full h-full text-center">
-                        <img src="data/synoptic/20260820_07.jpg" alt="20 ส.ค. 07:00" class="max-h-[380px] mx-auto object-contain rounded">
-                    </div>
-                    <div class="synoptic-slide w-full h-full text-center">
-                        <img src="data/synoptic/20260820_13.jpg" alt="20 ส.ค. 13:00" class="max-h-[380px] mx-auto object-contain rounded">
-                    </div>
-                    <div class="synoptic-slide w-full h-full text-center">
-                        <img src="data/synoptic/20260820_19.jpg" alt="20 ส.ค. 19:00" class="max-h-[380px] mx-auto object-contain rounded">
-                    </div>
+            <!-- Image Slider Container (ขนาดใหญ่เต็มความกว้าง) -->
+            <div class="w-full bg-slate-900 rounded-xl overflow-hidden border border-slate-200 p-4 min-h-[450px] max-h-[600px] flex items-center justify-center relative shadow-inner">
+                <div class="synoptic-slide active w-full h-full text-center">
+                    <img src="data/synoptic/20260818_07.jpg" alt="18 ส.ค. 07:00" class="max-h-[580px] mx-auto object-contain rounded">
                 </div>
+                <div class="synoptic-slide w-full h-full text-center">
+                    <img src="data/synoptic/20260818_13.jpg" alt="18 ส.ค. 13:00" class="max-h-[580px] mx-auto object-contain rounded">
+                </div>
+                <div class="synoptic-slide w-full h-full text-center">
+                    <img src="data/synoptic/20260818_19.jpg" alt="18 ส.ค. 19:00" class="max-h-[580px] mx-auto object-contain rounded">
+                </div>
+                <div class="synoptic-slide w-full h-full text-center">
+                    <img src="data/synoptic/20260819_01.jpg" alt="19 ส.ค. 01:00" class="max-h-[580px] mx-auto object-contain rounded">
+                </div>
+                <div class="synoptic-slide w-full h-full text-center">
+                    <img src="data/synoptic/20260819_07.jpg" alt="19 ส.ค. 07:00" class="max-h-[580px] mx-auto object-contain rounded">
+                </div>
+                <div class="synoptic-slide w-full h-full text-center">
+                    <img src="data/synoptic/20260819_13.jpg" alt="19 ส.ค. 13:00" class="max-h-[580px] mx-auto object-contain rounded">
+                </div>
+                <div class="synoptic-slide w-full h-full text-center">
+                    <img src="data/synoptic/20260819_19.jpg" alt="19 ส.ค. 19:00" class="max-h-[580px] mx-auto object-contain rounded">
+                </div>
+                <div class="synoptic-slide w-full h-full text-center">
+                    <img src="data/synoptic/20260820_01.jpg" alt="20 ส.ค. 01:00" class="max-h-[580px] mx-auto object-contain rounded">
+                </div>
+                <div class="synoptic-slide w-full h-full text-center">
+                    <img src="data/synoptic/20260820_07.jpg" alt="20 ส.ค. 07:00" class="max-h-[580px] mx-auto object-contain rounded">
+                </div>
+                <div class="synoptic-slide w-full h-full text-center">
+                    <img src="data/synoptic/20260820_13.jpg" alt="20 ส.ค. 13:00" class="max-h-[580px] mx-auto object-contain rounded">
+                </div>
+                <div class="synoptic-slide w-full h-full text-center">
+                    <img src="data/synoptic/20260820_19.jpg" alt="20 ส.ค. 19:00" class="max-h-[580px] mx-auto object-contain rounded">
+                </div>
+            </div>
 
-                <!-- Description Box -->
-                <div class="lg:col-span-5 bg-slate-50 p-5 rounded-xl border border-slate-200 text-sm leading-relaxed text-slate-600 space-y-3">
-                    <h4 class="font-bold text-slate-800 flex items-center gap-1.5 border-b border-slate-200 pb-2">
-                        <i data-lucide="info" class="w-4 h-4 text-blue-600"></i> คำอธิบายสภาวะอากาศย้อนหลัง
-                    </h4>
-                    <p class="italic text-slate-400">
-                        [ เว้นพื้นที่สำหรับใส่คำอธิบายสภาวะอากาศ ร่องมรสุม และการเคลื่อนตัวของหยดความกดอากาศต่ำ ตลอดช่วงเหตุการณ์วันที่ 18 - 20 สิงหาคม 2569 ]
-                    </p>
-                </div>
+            <!-- Description Box (ย้ายมาไว้ใต้ภาพ) -->
+            <div class="w-full bg-slate-50 p-5 rounded-xl border border-slate-200 text-sm leading-relaxed text-slate-600 space-y-2">
+                <h4 class="font-bold text-slate-800 flex items-center gap-1.5 border-b border-slate-200 pb-2">
+                    <i data-lucide="info" class="w-4 h-4 text-blue-600"></i> คำอธิบายสภาวะอากาศย้อนหลัง
+                </h4>
+                <p class="italic text-slate-400">
+                    [ เว้นพื้นที่สำหรับใส่คำอธิบายสภาวะอากาศ ร่องมรสุม และการเคลื่อนตัวของหยดความกดอากาศต่ำ ตลอดช่วงเหตุการณ์วันที่ 18 - 20 สิงหาคม 2569 ]
+                </p>
             </div>
         </section>
 
@@ -288,7 +292,7 @@
             </div>
         </section>
 
-        <!-- 4. ปริมาณฝนเรดาร์สะสมทั้งเหตุการณ์ (ปรับธีมเป็น Slate/White) -->
+        <!-- 4. ปริมาณฝนเรดาร์สะสมทั้งเหตุการณ์ -->
         <section class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
             <div class="border-b border-slate-100 pb-3">
                 <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
@@ -375,17 +379,19 @@
     </main>
 
     <script>
-        // 1. Synoptic Image Slider Logic
+        // 1. Synoptic Image Slider Logic (ปรับปรุงให้สอดคล้องกับ 11 รูปภาพ)
         let currentSynopticIdx = 0;
         let synopticInterval = null;
         const synopticTimes = [
-            "18 ส.ค. 2569 01:00 น.", "18 ส.ค. 2569 07:00 น.", "18 ส.ค. 2569 13:00 น.", "18 ส.ค. 2569 19:00 น.",
+            "18 ส.ค. 2569 07:00 น.", "18 ส.ค. 2569 13:00 น.", "18 ส.ค. 2569 19:00 น.",
             "19 ส.ค. 2569 01:00 น.", "19 ส.ค. 2569 07:00 น.", "19 ส.ค. 2569 13:00 น.", "19 ส.ค. 2569 19:00 น.",
             "20 ส.ค. 2569 01:00 น.", "20 ส.ค. 2569 07:00 น.", "20 ส.ค. 2569 13:00 น.", "20 ส.ค. 2569 19:00 น."
         ];
 
         function changeSynopticSlide(direction) {
             const slides = document.querySelectorAll('.synoptic-slide');
+            if (slides.length === 0) return;
+
             slides[currentSynopticIdx].classList.remove('active');
             
             currentSynopticIdx = (currentSynopticIdx + direction + slides.length) % slides.length;
@@ -404,7 +410,7 @@
                 synopticInterval = setInterval(() => changeSynopticSlide(1), 1500);
                 btn.innerHTML = `<i data-lucide="pause" class="w-3.5 h-3.5"></i> หยุดชั่วคราว`;
             }
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
         }
 
         // 2. Load Gauge Top 5 Real Data
@@ -467,8 +473,7 @@
             }
         }
 
-        // 4. Map Event Accumulation & Table Init (Real JSON)
-        let eventGeoJsonLayer = null;
+        // 4. Map Event Accumulation & Table Init
         async function initEventMapAndTable() {
             const map = L.map('map-event-accumulation', { zoomControl: false }).setView([18.7813, 100.7730], 8);
             L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
@@ -519,7 +524,7 @@
             }
         }
 
-        // 5. Spatial Top 5 Ranking Data Switcher (With District Names & Unified Format)
+        // 5. Spatial Top 5 Ranking Data Switcher
         let zonalFullTelemetry = {};
 
         async function loadZonalTelemetryDB() {
@@ -533,7 +538,8 @@
 
         function switchIndexSpatialTab(typeKey) {
             ['subdistrict', 'district', 'subbasin'].forEach(t => {
-                document.getElementById(`tab-${t}`).className = "px-3.5 py-1.5 text-xs font-semibold rounded-md text-slate-500 hover:text-slate-900 transition";
+                const el = document.getElementById(`tab-${t}`);
+                if (el) el.className = "px-3.5 py-1.5 text-xs font-semibold rounded-md text-slate-500 hover:text-slate-900 transition";
             });
 
             if (typeKey === 'sub_district') {
@@ -562,7 +568,6 @@
                     }
                 }
 
-                // Calculate Max 24h & Max Hourly
                 const hourly = item.hourly || [];
                 let maxH = 0;
                 let maxHIndex = -1;
@@ -594,7 +599,7 @@
             initEventMapAndTable();
             loadTop5GaugeStations();
             loadZonalTelemetryDB();
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
         });
     </script>
 </body>
