@@ -217,14 +217,42 @@
         const mapH = L.map('map-hourly').setView(INITIAL_CENTER, 9);
         const mapA = L.map('map-accumulated').setView(INITIAL_CENTER, 9);
 
-        const baseTiles = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
-        const attribution = '&copy; OpenStreetMap contributors &copy; CARTO';
+        // ---- Basemap (no API key needed) ----
+        const BASEMAPS = {
+            primary: {   // Esri Light Gray: looks like CARTO light_all
+                url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+                options: { maxZoom: 16, attribution: 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors' }
+            },
+            fallback: {  // OpenStreetMap, used only if Esri fails
+                url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                options: { maxZoom: 19, attribution: '&copy; OpenStreetMap contributors' }
+            }
+        };
 
-        L.tileLayer(baseTiles, { attribution }).addTo(mapH);
-        L.tileLayer(baseTiles, { attribution }).addTo(mapA);
+        function addBasemap(map) {
+            const primary = L.tileLayer(BASEMAPS.primary.url, BASEMAPS.primary.options).addTo(map);
+            let errors = 0, switched = false;
+            primary.on('tileerror', () => {
+                if (switched || ++errors < 3) return;
+                switched = true;
+                map.removeLayer(primary);
+                L.tileLayer(BASEMAPS.fallback.url, BASEMAPS.fallback.options).addTo(map).bringToBack();
+            });
+        }
 
-        mapH.on('move', () => mapA.setView(mapH.getCenter(), mapH.getZoom(), { animate: false }));
-        mapA.on('move', () => mapH.setView(mapH.getCenter(), mapH.getZoom(), { animate: false }));
+        addBasemap(mapH);
+        addBasemap(mapA);
+
+        // ---- Sync the two maps ----
+        let syncing = false;
+        function syncMaps(src, dst) {
+            if (syncing) return;
+            syncing = true;
+            dst.setView(src.getCenter(), src.getZoom(), { animate: false });
+            syncing = false;
+        }
+        mapH.on('move', () => syncMaps(mapH, mapA));
+        mapA.on('move', () => syncMaps(mapA, mapH));
 
         const resizeObserver = new ResizeObserver(() => {
             mapH.invalidateSize();
