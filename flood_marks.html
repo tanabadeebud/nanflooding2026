@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nan Flood 2026 - จุดน้ำท่วม/ดินถล่ม</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Leaflet Map CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Turf.js for Spatial Analysis -->
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        #map { z-index: 1; }
+        .leaflet-control-layers {
+            font-family: ui-sans-serif, system-ui, sans-serif !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            color: #334155 !important;
+            border-radius: 8px !important;
+            border: 1px solid #cbd5e1 !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+        }
+        .leaflet-control-layers-overlays label {
+            margin-bottom: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col md:flex-row select-none">
+
+    <!-- Sidebar Navigation -->
+    <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 shadow-sm z-30">
+        <div>
+            <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-4">
+                <img src="data/Radar4flood_Icon_PNG.png" alt="Radar4Flood Logo" class="w-10 h-10 object-contain shrink-0" onerror="this.src='Radar4flood_Icon_PNG.png'">
+                <div>
+                    <h1 class="text-base font-bold tracking-tight text-slate-900">สถานการณ์น้ำท่วม จ.น่าน พ.ศ. 2569</h1>
+                    <p class="text-xs text-slate-500 font-medium">18 ส.ค. 2569 - ปัจจุบัน</p>
+                </div>
+            </div>
+
+            <nav class="space-y-1 text-xs">
+                <a href="index.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 font-medium">
+                    <i data-lucide="file-text" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                    <span>1. สรุปภาพรวมเหตุการณ์</span>
+                </a>
+                <a href="gauge_stations.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 font-medium">
+                    <i data-lucide="cloud-rain" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                    <span>2. สถานีวัดน้ำฝน</span>
+                </a>
+                <a href="water_levels.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 font-medium">
+                    <i data-lucide="waves" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                    <span>3. สถานีวัดระดับน้ำ</span>
+                </a>
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
+                    <i data-lucide="activity" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-semibold">4. สถานการณ์อัตราการไหล (กำลังปรับปรุง)</span>
+                </div>
+                <a href="rainfall_stations.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 font-medium">
+                    <i data-lucide="play-circle" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                    <span>5. ภาพเคลื่อนไหวฝนเรดาร์</span>
+                </a>
+                <a href="district_rainfall.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 font-medium">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                    <span>6. ปริมาณฝนเรดาร์เชิงพื้นที่</span>
+                </a>
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 bg-slate-50 cursor-not-allowed opacity-60">
+                    <i data-lucide="map" class="w-4 h-4 shrink-0"></i>
+                    <span class="font-semibold">7. แผนที่น้ำท่วม (กำลังปรับปรุง)</span>
+                </div>
+                <a href="flood_marks.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-blue-50 text-blue-700 font-bold shadow-sm">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-blue-600 shrink-0"></i>
+                    <span>8. จุดน้ำท่วม/ดินถล่ม</span>
+                </a>
+            </nav>
+        </div>
+        <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-400 font-medium hidden md:block">
+            <p>Nan Monitoring Project v2.0</p>
+        </div>
+    </aside>
+
+    <!-- Main Content Panel -->
+    <main class="flex-1 flex flex-col min-w-0 p-6 md:p-8 space-y-6">
+        <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-200 gap-4">
+            <div>
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900">จุดน้ำท่วม/ดินถล่ม จากรายงานประชาชน</h2>
+                <p class="text-sm text-slate-500 mt-1">แผนที่แสดงจุดเกิดเหตุน้ำท่วมและดินถล่มเชิงพื้นที่ พร้อมภาพถ่ายและลิงก์ข่าวประกอบ</p>
+            </div>
+            <button onclick="openReportModal()" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center gap-2 self-start sm:self-auto shrink-0">
+                <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                <span>แจ้งเหตุการณ์ใหม่</span>
+            </button>
+        </header>
+
+        <!-- Map Box -->
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col flex-1 min-h-[550px]">
+            <div class="bg-slate-50 px-4 py-2.5 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                <span class="flex items-center gap-2"><i data-lucide="map" class="w-4 h-4 text-blue-600"></i> แผนที่ตำแหน่งจุดน้ำท่วม/ดินถล่ม (สามารถคลิกบนแผนที่เพื่อแจ้งจุดได้)</span>
+                <!-- Legend -->
+                <div class="flex items-center gap-4 text-[11px] font-medium capitalize">
+                    <span class="flex items-center gap-1.5"><span class="w-3 h-3 bg-blue-600 rounded-full block"></span> 🌊 น้ำท่วม (Flood)</span>
+                    <span class="flex items-center gap-1.5"><span class="w-3 h-3 bg-amber-600 rounded-full block"></span> ⛰️ ดินถล่ม (Landslide)</span>
+                </div>
+            </div>
+            <div id="map" class="w-full flex-1 bg-slate-100 min-h-[500px]"></div>
+        </div>
+    </main>
+
+    <!-- Submission Modal -->
+    <div id="report-modal" class="fixed inset-0 bg-slate-900/60 z-50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-2xl border border-slate-200 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-500"></i> แจ้งจุดน้ำท่วม / ดินถล่ม
+                </h3>
+                <button onclick="closeReportModal()" class="p-1.5 bg-white border border-slate-200 hover:bg-slate-100 text-slate-500 rounded-lg transition">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <form id="disaster-form" onsubmit="handleFormSubmit(event)" class="p-6 overflow-y-auto space-y-4 text-xs font-medium">
+                
+                <!-- 1. Disaster Type -->
+                <div class="space-y-1.5">
+                    <label class="block font-bold text-slate-800">1. ประเภทเหตุการณ์ <span class="text-red-500">*</span></label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="flex items-center gap-2 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 has-[:checked]:bg-blue-50 has-[:checked]:border-blue-500 transition">
+                            <input type="radio" name="event_type" value="flood" checked class="text-blue-600 focus:ring-blue-500">
+                            <div>
+                                <span class="font-bold text-slate-800 block">🌊 น้ำท่วม (Flood)</span>
+                                <span class="text-[10px] text-slate-500">น้ำท่วมขัง, น้ำล้นตลิ่ง</span>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-2 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 has-[:checked]:bg-amber-50 has-[:checked]:border-amber-500 transition">
+                            <input type="radio" name="event_type" value="landslide" class="text-amber-600 focus:ring-amber-500">
+                            <div>
+                                <span class="font-bold text-slate-800 block">⛰️ ดินถล่ม (Landslide)</span>
+                                <span class="text-[10px] text-slate-500">ดินสไลด์, ดินโคลนถล่ม</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 2. Location Selection -->
+                <div class="space-y-1.5">
+                    <label class="block font-bold text-slate-800">2. ระบุตำแหน่งบนแผนที่ <span class="text-red-500">*</span></label>
+                    <div class="flex gap-2">
+                        <input type="text" id="latlng-display" readonly placeholder="คลิกบนแผนที่เพื่อระบุพิกัด..." class="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-600 font-mono outline-none" required>
+                        <button type="button" onclick="useCurrentGPS()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold flex items-center gap-1 border border-slate-200 transition">
+                            <i data-lucide="crosshair" class="w-3.5 h-3.5"></i> GPS
+                        </button>
+                    </div>
+                    <input type="hidden" id="input-lat">
+                    <input type="hidden" id="input-lng">
+                </div>
+
+                <!-- Auto Detected Boundary -->
+                <div class="grid grid-cols-2 gap-3 bg-slate-50 p-3 rounded-lg border border-slate-200 text-slate-800">
+                    <div>
+                        <span class="text-[10px] text-slate-400 font-bold uppercase block">ตำบล (Auto)</span>
+                        <span id="detected-subdistrict" class="font-bold">-</span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] text-slate-400 font-bold uppercase block">อำเภอ (Auto)</span>
+                        <span id="detected-district" class="font-bold">-</span>
+                    </div>
+                </div>
+
+                <!-- 3. Event Time -->
+                <div class="space-y-1.5">
+                    <label class="block font-bold text-slate-800">3. เวลาที่เกิดเหตุ / ถ่ายภาพ (Optional)</label>
+                    <input type="datetime-local" id="input-time" class="w-full border border-slate-200 rounded-lg px-3 py-2 outline-none focus:border-blue-500 font-mono text-slate-700">
+                    <span class="text-[10px] text-slate-400 block">* หากไม่ระบุ ระบบจะใช้เวลาปัจจุบันในการบันทึก</span>
+                </div>
+
+                <!-- 4. Optional Image Upload -->
+                <div class="space-y-1.5">
+                    <label class="block font-bold text-slate-800">4. อัปโหลดภาพถ่ายสถานที่ (Optional)</label>
+                    <input type="file" id="input-image" accept="image/*" class="w-full text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 border border-slate-200 rounded-lg cursor-pointer">
+                </div>
+
+                <!-- 5. Optional Description -->
+                <div class="space-y-1.5">
+                    <label class="block font-bold text-slate-800">5. รายละเอียดเพิ่มเติม (Optional)</label>
+                    <textarea id="input-desc" rows="2" placeholder="เช่น ดินสไลด์ปิดทับเส้นทางจราจร 1 ช่องทาง..." class="w-full border border-slate-200 rounded-lg p-2.5 outline-none focus:border-blue-500"></textarea>
+                </div>
+
+                <!-- 6. Optional News Link -->
+                <div class="space-y-1.5">
+                    <label class="block font-bold text-slate-800">6. ลิงก์ข่าวหรือโพสต์โซเชียลมีเดีย (Optional)</label>
+                    <input type="url" id="input-news" placeholder="https://facebook.com/..." class="w-full border border-slate-200 rounded-lg px-3 py-2 outline-none focus:border-blue-500 font-mono">
+                </div>
+
+                <!-- 7. Optional Reporter Name -->
+                <div class="space-y-1.5">
+                    <label class="block font-bold text-slate-800">7. ชื่อผู้แจ้ง (Optional)</label>
+                    <input type="text" id="input-name" placeholder="ไม่ระบุตัวตน (Anonymous)" class="w-full border border-slate-200 rounded-lg px-3 py-2 outline-none focus:border-blue-500">
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" id="submit-btn" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition">
+                        บันทึกและส่งข้อมูล
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Supabase Credentials
+        const SUPABASE_URL = "https://jvfdkzwddwwinzfbkvzu.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2ZmRrendkZHd3aW56ZmJrdnp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcyNzI5NTEsImV4cCI6MjEwMjg0ODk1MX0.W9eoSnssIYZNz7iBjee1hpB-xW4DvPog677QY8S16cs";
+        
+        // Initialize Supabase Client
+        const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let map, tempMarker, nativeLayerControl = null;
+        let subdistrictGeoJson = null;
+
+        function initMapFramework() {
+            map = L.map('map').setView([18.7813, 100.7730], 9);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            nativeLayerControl = L.control.layers(null, null, { position: 'topright', collapsed: false }).addTo(map);
+
+            // Add Boundaries Layers
+            const layersConfig = [
+                { name: 'ขอบเขตจังหวัดน่าน', url: 'data/nan_province_boundary.geojson', color: '#0f172a', weight: 2.2, active: true },
+                { name: 'ขอบเขตอำเภอ', url: 'data/nan_district_boundary.geojson', color: '#64748b', weight: 1.2, dashArray: '3, 3', active: true }
+            ];
+
+            layersConfig.forEach(cfg => {
+                fetch(cfg.url)
+                    .then(r => r.json())
+                    .then(geoData => {
+                        let layer = L.geoJSON(geoData, {
+                            interactive: false,
+                            style: { color: cfg.color, weight: cfg.weight, dashArray: cfg.dashArray || null, fillColor: 'transparent', fillOpacity: 0 }
+                        });
+                        nativeLayerControl.addOverlay(layer, cfg.name);
+                        if (cfg.active) { layer.addTo(map); layer.bringToBack(); }
+                    }).catch(err => console.warn(`Layer load skipped: ${cfg.url}`));
+            });
+
+            // Fetch Subdistrict boundary for auto spatial lookup
+            fetch('data/nan_district_boundary.geojson')
+                .then(r => r.json())
+                .then(data => { subdistrictGeoJson = data; })
+                .catch(err => console.warn("Subdistrict boundary file missing"));
+
+            // Click Map Event
+            map.on('click', (e) => {
+                selectLocation(e.latlng.lat, e.latlng.lng);
+                openReportModal();
+            });
+
+            loadExistingDisasterMarks();
+        }
+
+        function autoDetectBoundary(lat, lng) {
+            if (!subdistrictGeoJson || !window.turf) return;
+            const pt = turf.point([lng, lat]);
+            let foundSub = "-", foundDist = "-";
+
+            for (let f of subdistrictGeoJson.features) {
+                if (turf.booleanPointInPolygon(pt, f)) {
+                    foundSub = f.properties.adm3_name1 || f.properties.TAM_NAME || f.properties.sub_district || "-";
+                    foundDist = f.properties.adm2_name1 || f.properties.AMP_NAME || f.properties.district || "-";
+                    break;
+                }
+            }
+            document.getElementById('detected-subdistrict').innerText = foundSub;
+            document.getElementById('detected-district').innerText = foundDist;
+        }
+
+        function selectLocation(lat, lng) {
+            document.getElementById('input-lat').value = lat;
+            document.getElementById('input-lng').value = lng;
+            document.getElementById('latlng-display').value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+            
+            if (tempMarker) map.removeLayer(tempMarker);
+            tempMarker = L.marker([lat, lng]).addTo(map);
+
+            autoDetectBoundary(lat, lng);
+        }
+
+        function useCurrentGPS() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(pos => {
+                    const { latitude, longitude } = pos.coords;
+                    map.setView([latitude, longitude], 13);
+                    selectLocation(latitude, longitude);
+                }, () => alert("ไม่สามารถเข้าถึงตำแหน่ง GPS ของคุณได้"));
+            }
+        }
+
+        // Fetch and Render Markers on Map
+        async function loadExistingDisasterMarks() {
+            try {
+                const { data, error } = await _supabase.from('flood_marks').select('*').order('created_at', { ascending: false });
+                if (error) { console.warn("Supabase fetch error:", error); return; }
+
+                if (data && data.length > 0) {
+                    data.forEach(item => {
+                        const isLandslide = item.event_type === 'landslide';
+                        const fillColor = isLandslide ? '#d97706' : '#2563eb';
+                        const typeText = isLandslide ? '⛰️ ดินถล่ม' : '🌊 น้ำท่วม';
+
+                        const marker = L.circleMarker([item.latitude, item.longitude], {
+                            radius: 8, fillColor: fillColor, color: '#ffffff', weight: 2, fillOpacity: 0.9
+                        });
+
+                        const eventTimeStr = item.event_time ? new Date(item.event_time).toLocaleString('th-TH') : new Date(item.created_at).toLocaleString('th-TH');
+
+                        let popupContent = `
+                            <div class="text-xs space-y-1 font-sans">
+                                <div class="flex items-center justify-between gap-2 border-b pb-1">
+                                    <span class="font-bold text-slate-900">${typeText}</span>
+                                    <span class="text-[10px] font-mono text-slate-400">${eventTimeStr}</span>
+                                </div>
+                                <p class="font-bold text-slate-800 mt-1">${item.sub_district || ''} ${item.district ? `(อ.${item.district})` : ''}</p>
+                                ${item.description ? `<p class="text-slate-600">${item.description}</p>` : ''}
+                                ${item.image_url ? `<img src="${item.image_url}" class="w-full h-28 object-cover rounded mt-2 border">` : ''}
+                                ${item.news_url ? `<a href="${item.news_url}" target="_blank" class="text-blue-600 underline font-bold mt-1 block">อ่านข่าวประกอบ</a>` : ''}
+                            </div>
+                        `;
+
+                        marker.bindPopup(popupContent);
+                        marker.addTo(map);
+                    });
+                }
+            } catch(e) {
+                console.warn(e);
+            }
+        }
+
+        // Client-side Image Compression
+        function compressImage(file, maxWidth = 800, quality = 0.7) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let w = img.width, h = img.height;
+                        if (w > maxWidth) {
+                            h = Math.round((h * maxWidth) / w);
+                            w = maxWidth;
+                        }
+                        canvas.width = w;
+                        canvas.height = h;
+                        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                        canvas.toBlob((blob) => {
+                            resolve(new File([blob], file.name, { type: 'image/jpeg' }));
+                        }, 'image/jpeg', quality);
+                    };
+                };
+            });
+        }
+
+        // Handle Form Submission
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            const lat = parseFloat(document.getElementById('input-lat').value);
+            const lng = parseFloat(document.getElementById('input-lng').value);
+
+            if (isNaN(lat) || isNaN(lng)) {
+                alert("กรุณาเลือกตำแหน่งบนแผนที่ก่อนส่งข้อมูล");
+                return;
+            }
+
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.innerText = "กำลังบันทึกข้อมูล...";
+            submitBtn.disabled = true;
+
+            const eventType = document.querySelector('input[name="event_type"]:checked').value;
+            const subDistrict = document.getElementById('detected-subdistrict').innerText;
+            const district = document.getElementById('detected-district').innerText;
+            const customTime = document.getElementById('input-time').value;
+            const desc = document.getElementById('input-desc').value.trim();
+            const news = document.getElementById('input-news').value.trim();
+            const reporter = document.getElementById('input-name').value.trim() || 'Anonymous';
+            const fileInput = document.getElementById('input-image');
+
+            let imageUrl = null;
+
+            try {
+                if (fileInput.files.length > 0) {
+                    const rawFile = fileInput.files[0];
+                    const compressedFile = await compressImage(rawFile);
+                    const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.jpg`;
+
+                    const { error: uploadError } = await _supabase.storage
+                        .from('flood-images')
+                        .upload(fileName, compressedFile);
+
+                    if (!uploadError) {
+                        const { data: publicUrlData } = _supabase.storage.from('flood-images').getPublicUrl(fileName);
+                        imageUrl = publicUrlData.publicUrl;
+                    }
+                }
+
+                const { error: insertError } = await _supabase.from('flood_marks').insert([{
+                    event_type: eventType,
+                    latitude: lat,
+                    longitude: lng,
+                    district: district !== '-' ? district : null,
+                    sub_district: subDistrict !== '-' ? subDistrict : null,
+                    event_time: customTime ? new Date(customTime).toISOString() : new Date().toISOString(),
+                    description: desc || null,
+                    news_url: news || null,
+                    image_url: imageUrl,
+                    reporter_name: reporter
+                }]);
+
+                if (insertError) {
+                    alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + insertError.message);
+                } else {
+                    alert("บันทึกข้อมูลเหตุการณ์เรียบร้อยแล้ว!");
+                    closeReportModal();
+                    location.reload();
+                }
+            } catch(err) {
+                alert("ไม่สามารถบันทึกข้อมูลได้ กรุณาตรวจสอบการตั้งค่า Supabase");
+            } finally {
+                submitBtn.innerText = "บันทึกและส่งข้อมูล";
+                submitBtn.disabled = false;
+            }
+        }
+
+        function openReportModal() { document.getElementById('report-modal').classList.remove('hidden'); }
+        function closeReportModal() { document.getElementById('report-modal').classList.add('hidden'); }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initMapFramework();
+            if (window.lucide) lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
